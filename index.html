@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a1426">
+<meta name="description" content="5桁の電話番号からクロスバー交換機の選択・保持・接続を学ぶ、オフライン対応の1ファイル教材">
+<title>CROSSBAR LAB — 5桁の電話がつながるまで</title>
+<!-- Single-file build 2026-10-17.06; cache-buster: cb-lab-1.6.0-20261017-06. CSS/JS embedded; no remote assets. -->
+<meta name="app-build" content="cb-lab-1.6.0-20261017-06">
+<style>
+:root{--bg:#08111f;--bg2:#0d1829;--panel:#101e32;--panel2:#15273e;--ink:#f1f7ff;--muted:#a8b8ce;--border:#2b405b;--soft:#20344d;--blue:#68dafb;--teal:#62e1c3;--amber:#ffbf6f;--red:#ff7f8e;--shadow:0 22px 65px rgba(0,0,0,.25);--r:19px;--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 75% -15%,#193c57 0,transparent 49%),radial-gradient(ellipse at -10% 70%,#132c41 0,transparent 43%),var(--bg);color:var(--ink);font:15px/1.65 -apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.35;cursor:not-allowed}a{color:var(--blue);text-underline-offset:3px}a:hover{color:white}.app{max-width:1450px;margin:auto;padding:26px 28px 45px}.eyebrow{letter-spacing:.15em;color:var(--blue);font:700 11px/1.5 var(--mono)}.muted{color:var(--muted)}.tiny{font-size:12px}.micro{font-size:11px}.mono{font-family:var(--mono)}.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);padding:6px 11px;border-radius:99px;font-size:12px;color:var(--muted);white-space:nowrap}.pill .dot{width:7px;height:7px;background:var(--teal);border-radius:50%;box-shadow:0 0 10px var(--teal)}.top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:30px}.brand{display:flex;align-items:center;gap:12px;font:800 15px/1 var(--mono);letter-spacing:.09em}.brand-icon{width:34px;height:34px;border:1px solid #5696b8;border-radius:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:7px;transform:rotate(-8deg);background:#142c42}.brand-icon i{border:1px solid #71d6f4;border-radius:2px}.brand-icon i:nth-child(5){background:var(--teal);box-shadow:0 0 12px var(--teal)}.version{color:#b8c8db;font:600 11px/1.5 var(--mono)}h1{font-size:clamp(27px,3.1vw,43px);letter-spacing:-.04em;line-height:1.3;margin:9px 0 11px}h2{font-size:20px;line-height:1.35;margin:0 0 14px}h3{font-size:16px;margin:0 0 12px}p{margin:0}.intro{max-width:950px;color:#bbcbdf}.hero{margin-bottom:25px}.tabs{display:flex;gap:9px;margin-top:24px;border-bottom:1px solid var(--border);padding-bottom:11px;flex-wrap:wrap}.tab{padding:10px 18px;border:1px solid transparent;border-radius:12px;background:transparent;color:var(--muted);font-weight:700}.tab:hover{background:#193049}.tab[aria-selected="true"]{background:#1a3951;color:#d9faff;border-color:#3d6f8a}.tab-number{font-family:var(--mono);font-size:11px;opacity:.65;margin-right:8px}.panel{border:1px solid var(--border);border-radius:var(--r);background:linear-gradient(165deg,rgba(23,43,66,.98),rgba(11,24,42,.98));box-shadow:var(--shadow)}.panel-pad{padding:23px}.tag{display:inline-flex;border:1px solid #34516d;border-radius:7px;padding:3px 8px;color:#a7d1e7;font:700 11px/1.5 var(--mono);letter-spacing:.05em}.workspace{display:grid;grid-template-columns:minmax(285px,330px) minmax(0,1fr);align-items:start;gap:18px}.left{display:flex;flex-direction:column;gap:18px}.right{display:flex;flex-direction:column;gap:18px;min-width:0}.panel-header{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:17px}.panel-header h2,.panel-header h3{margin:0}.field-label{display:block;font-weight:700;color:#c8d6e7;font-size:12px;margin:0 0 6px}.input-row{display:grid;grid-template-columns:1fr 93px;gap:9px;margin-bottom:13px}.number-input,.select-input{color:var(--ink);background:#0a192d;border:1px solid #48617c;border-radius:10px;padding:10px 12px;min-width:0;width:100%;outline:none}.number-input{font:700 25px/1.3 var(--mono);letter-spacing:.15em}.number-input:focus,.select-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #68dafb1c}.select-input{font-size:14px}.number-help{color:var(--muted);font-size:12px;margin:-3px 0 13px}.number-help code{font:inherit;color:#c3f2ff}.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:16px}.key{min-height:42px;background:#1b3049;border:1px solid #3b5773;color:#f5fbff;border-radius:9px;font:700 20px/1 var(--mono);transition:background .12s,transform .12s}.key:hover{background:#2c4a66}.key:active{transform:scale(.95)}.key.utility{font-size:13px;background:#13253a;color:#b6d5e8}.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}.btn{border:1px solid #3d5875;border-radius:11px;padding:11px 12px;background:#1b344e;color:#ecf8ff;font-weight:700;min-height:44px;transition:background .15s,transform .15s}.btn:hover:not(:disabled){background:#284d6b}.btn:active:not(:disabled){transform:translateY(1px)}.btn-primary{background:linear-gradient(135deg,#81e2ff,#4fc4e2);color:#072236;border-color:#7ae6ff}.btn-primary:hover:not(:disabled){background:#a3ebfa}.btn-warn{border-color:#91655d;color:#ffd6ce}.btn-wide{grid-column:1/-1}.scenario{margin:15px 0 12px}.speedline{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#c9d8e8;font-size:12px;margin-top:15px}.speedline label{font-weight:700}input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer}.hint-block{padding:14px 15px;background:rgba(9,23,39,.75);border:1px solid #304d66;border-radius:12px;font-size:13px;color:#c5d7e9}.hint-block strong{color:var(--amber)}.subheading{display:flex;align-items:center;gap:9px;margin-bottom:12px}.numcircle{width:24px;height:24px;border:1px solid #4a7895;border-radius:50%;display:inline-grid;place-items:center;color:var(--blue);font:700 12px var(--mono)}.subscriber-flow{display:grid;grid-template-columns:1fr auto minmax(170px,1.4fr) auto 1fr;gap:10px;align-items:center}.endpoint{border:1px solid #36516e;border-radius:12px;padding:13px 10px;text-align:center;background:#0d1c30;min-width:0}.endpoint .iconphone{font-size:23px;line-height:1}.endpoint .value{font:700 16px var(--mono);margin-top:6px}.endpoint .sub{font-size:11px;color:var(--muted)}.arrow{font:700 21px var(--mono);color:#4c7d97}.register{border:1px solid #3b596f;border-radius:12px;background:#091a2d;padding:13px 15px}.register .regtitle{display:flex;justify-content:space-between;color:#bdcbdd;font-size:12px;font-weight:700;gap:5px}.digits{display:flex;justify-content:center;gap:6px;margin-top:10px}.digit{width:clamp(25px,3vw,41px);height:49px;border:1px solid #47637d;border-radius:7px;display:grid;place-items:center;color:#69809a;background:#10233a;font:700 clamp(17px,2vw,24px)/1 var(--mono)}.digit.lit{background:#1c4954;color:#b9ffeb;border-color:#49a18d;box-shadow:inset 0 0 15px #1a695b55,0 0 12px #3becbf25}.digit.just{animation:flashDigit .5s ease}.split{font-size:11px;text-align:center;color:#a4b8ca;margin-top:8px}.computer{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;margin-top:14px;padding:12px 14px;border:1px solid #345171;border-radius:12px;background:#112840}.chip{width:42px;height:42px;display:grid;place-items:center;border-radius:10px;border:1px solid #60839a;color:#84def8;background:repeating-linear-gradient(45deg,#15334c,#15334c 5px,#1a3b52 5px,#1a3b52 9px);font:700 17px var(--mono)}.computer strong{display:block;font-size:13px}.computer p{color:#b6c8da;font-size:12px;line-height:1.45;margin-top:2px}.statusbox{padding:13px 16px;border-radius:13px;background:#0a1f30;border:1px solid #2c5268;margin-top:14px}.status-title{color:var(--teal);font-weight:800;font-size:15px}.status-message{font-size:12px;color:#c8d6e3;margin-top:2px;min-height:34px}.progress{height:5px;border-radius:100px;background:#1b364b;overflow:hidden;margin-top:12px}.progress .bar{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .26s}.crossbar-head{display:flex;align-items:start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:9px}.crossbar-grid{display:grid;grid-template-columns:repeat(3,minmax(218px,1fr));gap:12px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity}.switch-card{border:1px solid #35536e;border-radius:13px;padding:12px;background:#0d1d30;min-width:220px;scroll-snap-align:start}.switch-card .s-top{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:24px}.switch-card .s-name{font-weight:800;font-size:13px}.switch-card .s-state{font:700 10px/1.5 var(--mono);color:#8398ad;white-space:nowrap}.switch-card .s-state.active{color:var(--amber)}.switch-card .s-state.held{color:var(--teal)}.matrix{width:100%;display:block;overflow:visible;max-height:260px}.switch-card .s-readout{display:flex;justify-content:space-between;gap:4px;font:600 11px/1.4 var(--mono);padding:8px 4px 1px;border-top:1px solid #283f56;color:#b3c8dc}.on{color:#7cf0ce}.amber{color:var(--amber)}.red{color:var(--red)}.legend{display:flex;gap:13px;flex-wrap:wrap;color:#afc3d5;font-size:11px;margin:14px 0 0}.legend span{display:inline-flex;align-items:center;gap:6px}.swatch{display:inline-block;height:8px;width:8px;border-radius:50%;background:#607789}.swatch.a{background:var(--amber)}.swatch.c{background:var(--blue)}.swatch.g{background:var(--teal)}.swatch.r{background:var(--red)}.route-strip{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:14px;font:600 12px var(--mono);color:#b5c7d8}.route-node{border:1px solid #38536f;background:#10263d;border-radius:8px;padding:6px 9px}.route-node.done{color:#b9ffea;background:#183c40;border-color:#348a7e}.route-join{color:#658aa2}.log{list-style:none;margin:0;padding:0;max-height:195px;overflow:auto;display:flex;flex-direction:column;gap:1px}.log li{font-size:12px;border-bottom:1px solid #223951;padding:8px 0 8px 20px;color:#bdcede;position:relative}.log li:before{content:"";width:6px;height:6px;border-radius:50%;position:absolute;top:15px;left:4px;background:#69879d}.log li.current{color:#e8fcff}.log li.current:before{background:var(--teal);box-shadow:0 0 9px var(--teal)}.log time{color:#90a6b9;font:11px var(--mono);margin-right:8px}.teachgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.teachitem{border:1px solid #2d475f;border-radius:13px;padding:14px;background:rgba(13,30,49,.74)}.teachitem strong{display:block;font-size:14px;margin:6px 0}.teachitem p{color:#b8c9dd;font-size:12px}.teachnum{font:800 24px/1 var(--mono);color:var(--blue)}.explainbar{margin-top:18px;border-left:3px solid #8fbbd3;background:#11263c;border-radius:0 12px 12px 0;padding:12px 16px;color:#c6d6e8;font-size:13px}.explainbar b{color:white}.foot{margin-top:30px;border-top:1px solid var(--border);padding:20px 1px 0;color:#9db4c9;font-size:12px}.foot p{margin:6px 0}.sources{display:flex;gap:9px 21px;flex-wrap:wrap;margin-top:9px}.sep{margin:0 4px;color:#6e879b}.hidden{display:none!important}
+/* interactive physical mechanism */
+.mechanic-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.8fr);gap:18px;align-items:start}.mech-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,.5fr);gap:16px;align-items:center}.mechanic-big{border:1px solid #385574;border-radius:12px;background:#0b1e34;padding:12px}.mech-form{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:14px 0}.mech-controls{display:grid;grid-template-columns:1fr 1fr;gap:9px}.mechanic-status{border:1px solid #49617a;padding:14px;border-radius:12px;background:#081d31;margin-top:14px;min-height:94px;font-size:13px;color:#d3e3f0}.mechanic-status strong{display:block;color:var(--amber);margin-bottom:4px}.bar-pair{display:flex;flex-direction:column;gap:7px}.bar-line{display:flex;align-items:center;gap:8px;font:12px var(--mono);color:#a7bdd0}.bar-line span{min-width:45px}.bar-line .slat{flex:1;height:11px;border-radius:3px;background:#24364d;border:1px solid #45627a;transition:background .2s,box-shadow .2s;position:relative}.bar-line .slat:after{content:"";position:absolute;right:4px;top:2px;width:5px;height:5px;border-radius:50%;background:#718ba4}.bar-line .slat.power{background:#9f6535;border-color:var(--amber);box-shadow:0 0 13px #ffbf6f50}.bar-line .slat.power:after{background:#ffdea7}.bar-note{margin-top:9px;color:#aebfd0;font-size:11px}.holding-mini{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;margin-top:6px}.holding-mini i{height:18px;border:1px solid #557087;border-radius:3px;background:#1a3245;display:grid;place-items:center;color:#a3c2d5;font:9px/1 var(--mono);font-style:normal}.holding-mini i.live{background:#1e625d;color:#baffee;border-color:#54cfb6}.notes-list{margin:10px 0 0;padding-left:18px;color:#c0d2df;font-size:13px}.notes-list li{margin-bottom:9px}.callout{border:1px solid #526e81;background:#182f40;border-radius:11px;padding:12px;font-size:12px;color:#c7dceb;margin-top:14px}.callout strong{color:#f9d19c}.mech-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.mech-steps div{border:1px solid #38516d;border-radius:10px;padding:12px;background:#0e2439;color:#c1d3e3;font-size:12px}.mech-steps b{display:block;font-size:13px;color:#f0f9ff;margin-bottom:3px}.mech-steps span{font-family:var(--mono);font-weight:700;color:var(--amber)}.fact{display:grid;grid-template-columns:1fr 1fr;gap:11px}.fact>div{border:1px solid #36536c;background:#102338;border-radius:11px;padding:14px}.fact strong{display:block;font-size:13px;margin-bottom:6px}.fact p{font-size:12px;color:#b4c9d9}.mech-actions{margin-top:12px}.visual-note{color:#8faabd;font-size:11px;margin-top:9px}.mobile-only{display:none}@media(max-width:700px){.mobile-only{display:block;color:#86d5e8;margin-top:3px}}svg text{user-select:none}svg [data-row]{cursor:pointer}svg [data-row]:hover{fill:#c4f8ff;stroke:#9deaff;stroke-width:2}
+@keyframes flashDigit{0%{transform:scale(1.14);box-shadow:0 0 22px #6ff2d7}100%{transform:scale(1)}}
+@media(max-width:1200px){.workspace{grid-template-columns:300px minmax(0,1fr)}.crossbar-grid{grid-template-columns:repeat(3,minmax(235px,1fr))}.subscriber-flow{gap:7px}.digits{gap:4px}}
+@media(max-width:1000px){.workspace{grid-template-columns:1fr}.left{display:grid;grid-template-columns:minmax(280px,.95fr) minmax(250px,.8fr)}.crossbar-grid{grid-template-columns:repeat(3,minmax(245px,1fr))}.mechanic-layout{grid-template-columns:1fr}}
+@media(max-width:700px){.app{padding:17px 12px 40px}.top{margin-bottom:18px}.hero{margin-bottom:15px}.intro{font-size:13px}.tabs{margin-top:17px}.tab{padding:9px 12px;font-size:12px}.panel-pad{padding:16px}.left{display:flex}.subscriber-flow{grid-template-columns:1fr auto 1.7fr auto 1fr;gap:5px}.endpoint{padding:9px 4px}.endpoint .value{font-size:13px}.endpoint .sub{font-size:9px}.endpoint .iconphone{font-size:18px}.register{padding:11px 6px}.digits{gap:3px}.digit{height:38px;font-size:18px;width:min(7vw,33px)}.register .regtitle{font-size:10px}.split{font-size:9px}.computer{padding:11px}.teachgrid{grid-template-columns:1fr}.crossbar-grid{grid-template-columns:repeat(3,minmax(235px,1fr))}.mech-grid{grid-template-columns:1fr}.bar-pair{margin-top:8px}.mech-steps{grid-template-columns:1fr}.fact{grid-template-columns:1fr}.pill{font-size:11px}.key{min-height:48px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Pulse/relay register laboratory — v1.2.0 */
+.pulse-settings{display:grid;grid-template-columns:1fr;gap:9px;margin-top:16px;padding:14px;background:#0b1d30;border:1px solid #34516d;border-radius:12px}
+.pulse-settings .field-label{margin-bottom:4px}.pulse-settings .micro{line-height:1.5}
+.pulse-overview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.pulse-stat{padding:12px;border:1px solid #35526c;border-radius:12px;background:#0b2032;min-width:0}
+.pulse-stat strong{display:block;color:#e9f9ff;font:700 clamp(13px,1.4vw,18px)/1.5 var(--mono)}
+.pulse-stat small{display:block;color:#9cb7ca;font-size:10px;line-height:1.45;margin-top:4px}
+.pulse-stat.signal-open{border-color:#965c65;background:#2d1e30}.pulse-stat.signal-open strong{color:#ff9daa}
+.pulse-stat.signal-on{border-color:#3a9988;background:#12353a}.pulse-stat.signal-on strong{color:#82f5d1}
+.signal-legend{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 8px;color:#a9c5d5;font-size:11px}
+.sig-dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}.sig-dot.make{background:#62e1c3}.sig-dot.break{background:#ff8693}
+.wavebox{overflow-x:auto;min-height:130px;border-radius:12px;background:#0a1928;border:1px solid #37516b;padding:8px 10px 0}
+.wavebox svg{display:block;width:100%;min-width:340px;height:116px}
+.count-area{margin:15px 0 19px}.counter-lights{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:5px;margin-bottom:7px}
+.counter-light{display:grid;place-items:center;padding:9px 3px;border-radius:9px;background:#122941;border:1px solid #36516e;color:#93acc3;font:700 12px/1 var(--mono)}
+.counter-light.active{background:#18494f;border-color:#48a995;color:#c2ffea;box-shadow:0 0 11px #62e1c322}
+.counter-light.last{outline:2px solid var(--amber);outline-offset:-2px}
+.register-heading{margin:12px 0 5px}.relay-banks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.relay-bank{min-width:0;border:1px solid #36526b;background:#0b1e31;border-radius:11px;padding:10px 6px;text-align:center}
+.relay-bank header{color:#9db9ce;font-size:11px;font-weight:700;margin-bottom:8px}
+.relay-bank header b{color:#e9fafc;font:700 16px var(--mono)}
+.relay-bulbs{display:flex;justify-content:center;gap:3px;flex-wrap:wrap}.relay-unit{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:17px;font:700 10px/1 var(--mono);color:#98afc4}
+.relay-unit i{width:13px;height:13px;display:block;border:1px solid #547087;border-radius:50%;background:#233f53}
+.relay-unit.on i{background:#70e8c0;border-color:#aefcdb;box-shadow:0 0 9px #6be6baaa}.relay-unit.on{color:#c0ffe2}
+.relay-bank.pending{opacity:.65}.relay-bank.captured{border-color:#498c83;background:#15353c}
+.pulse-narration{margin-top:12px;padding:10px 12px;background:#132b42;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;color:#bfdbea;min-height:36px}
+@media(max-width:700px){.pulse-overview{grid-template-columns:repeat(2,minmax(0,1fr))}.relay-banks{gap:5px}.relay-bank{padding:7px 3px}.relay-unit{min-width:12px;font-size:9px}.relay-unit i{width:11px;height:11px}.relay-bulbs{gap:2px}.relay-bank header{font-size:9px}.relay-bank header b{font-size:14px}}
+@media(max-width:400px){.relay-banks{grid-template-columns:repeat(5,minmax(95px,1fr));overflow-x:auto;padding-bottom:5px}}
+
+/* Follow the part of the switch that is operating during automatic playback. */
+.follow-option{display:flex;align-items:center;gap:10px;margin:12px 0 2px;padding:10px 12px;border-radius:10px;border:1px solid #385f73;background:#0e2938;color:#cfecf4;cursor:pointer;font-size:13px;line-height:1.4}
+.follow-option input{width:17px;height:17px;accent-color:var(--teal);flex-shrink:0}
+.follow-focus{outline:2px solid #65dbf1;outline-offset:4px;box-shadow:0 0 0 6px #65dbf114;transition:outline-color .2s,box-shadow .2s}
+.floating-pause{display:none;position:fixed;right:clamp(14px,3vw,36px);bottom:clamp(16px,3vw,28px);z-index:100;padding:12px 20px;border:1px solid #b6eff8;border-radius:100px;background:#65d7ed;color:#071c2e;font-weight:800;box-shadow:0 5px 30px #000b;cursor:pointer}
+.floating-pause.is-visible{display:block}
+.floating-pause:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.follow-focus{transition:none}}
+
+/* Mobile-first legibility upgrades: v1.2.0.  Desktop remains unchanged. */
+.sound-panel{margin-top:14px;padding:12px;border:1px solid #34516c;border-radius:12px;background:#091c30;display:grid;gap:8px;min-width:0}.sound-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:13px}.sound-heading .tag{font-size:10px}.sound-panel .follow-option{margin:0}.sound-panel input[type=range]{display:block;width:100%;margin:0 0 3px}.sound-preview{display:grid;grid-template-columns:minmax(0,1fr) 90px;gap:7px;align-items:center}.sound-preview .select-input{padding:8px 9px;font-size:12px}.sound-preview .btn{min-height:39px;padding:7px 4px;font-size:12px}.sound-panel .field-label{display:flex;justify-content:space-between;gap:8px;margin:0}.sound-panel .micro{line-height:1.55}.sound-panel output{color:#92dcee;font:600 12px var(--mono)}.observe-label{margin-top:5px!important}
+.copyright{margin:18px 0 0!important;padding-top:5px;color:#8095aa;font:500 11px/1.5 var(--mono);letter-spacing:.055em;text-align:center}
+@media(max-width:700px){
+  html,body{width:100%;max-width:100%}
+  .app{width:100%;max-width:100%;padding:14px 10px 30px}
+  .top{gap:10px;margin-bottom:16px}
+  .brand{min-width:0;flex-wrap:wrap;column-gap:8px;row-gap:4px;font-size:13px}
+  .brand-icon{flex-shrink:0}
+  .version{font-size:10px;overflow-wrap:anywhere}
+  .hero h1{font-size:clamp(24px,6.5vw,32px)}
+  .tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding-bottom:9px}
+  .tab{min-width:0;min-height:54px;padding:8px 6px;font-size:12px;line-height:1.35;text-align:center;overflow-wrap:anywhere}
+  .tab-number{display:block;margin:0 0 3px}
+  .workspace,.left,.right,.mechanic-layout,.mech-grid{width:100%;min-width:0}
+  .left{display:flex}
+  .panel-pad{padding:14px}
+  .panel-header,.crossbar-head{align-items:flex-start;gap:8px}
+  h2{font-size:clamp(17px,4.7vw,20px)}
+  .panel-header .tag,.crossbar-head .tag{max-width:49%;font-size:9px;letter-spacing:0;white-space:normal;text-align:center;overflow-wrap:anywhere}
+  .input-row{grid-template-columns:minmax(0,1fr) minmax(88px,100px);gap:8px}
+  .number-input{font-size:23px;letter-spacing:.08em;padding:10px 9px}
+  .subscriber-flow{display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
+  .subscriber-flow .arrow{transform:rotate(90deg);justify-self:center;height:11px;line-height:.65;font-size:17px}
+  .endpoint{display:flex;justify-content:center;align-items:center;gap:9px;min-width:0;padding:8px 10px}
+  .endpoint .iconphone{font-size:20px}
+  .endpoint .value{margin:0;font-size:14px}
+  .endpoint .sub{font-size:11px}
+  .register{min-width:0;padding:10px 12px}
+  .register .regtitle{font-size:11px}
+  .digits{gap:5px}
+  .digit{width:clamp(30px,10vw,40px);height:40px;font-size:19px}
+  .split{font-size:10px;line-height:1.45}
+  .computer{grid-template-columns:36px minmax(0,1fr);gap:10px}
+  .chip{width:36px;height:36px}
+  .pulse-overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .pulse-stat{padding:10px}
+  .pulse-stat strong{font-size:clamp(12px,3.6vw,16px);overflow-wrap:anywhere}
+  .counter-lights{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+  .counter-light{padding:8px 3px}
+  .wavebox{min-width:0;max-width:100%;padding:7px 6px 0}
+  .wavebox svg{height:105px}
+  .crossbar-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;overflow:visible;scroll-snap-type:none;padding-bottom:0}
+  .switch-card{min-width:0;width:100%;padding:10px;scroll-snap-align:none}
+  .switch-card .matrix{max-width:230px;max-height:205px;margin:5px auto}
+  .route-strip{gap:6px;font-size:11px;overflow-wrap:anywhere}
+  .route-node{padding:5px 7px}
+  .mech-grid{display:grid;grid-template-columns:minmax(0,1fr)}
+  .mechanic-big{padding:9px}
+  .mechanic-big .matrix{max-width:330px;margin:0 auto}
+  .mechanic-layout .panel-pad{min-width:0}
+  .bar-pair{margin-top:9px}
+  .mech-steps{grid-template-columns:1fr;gap:7px}
+  .mech-steps div{padding:10px}
+  .fact{grid-template-columns:1fr}
+  .foot{overflow-wrap:anywhere}
+  .foot .mono{font-size:10px}
+  .sound-panel{padding:10px}.sound-preview{grid-template-columns:minmax(0,1fr) 77px}.sound-preview .btn{font-size:11px}
+  .floating-pause{right:10px;bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:10px 14px;font-size:13px}
+}
+@media(max-width:520px){
+  .relay-banks{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;overflow:visible;padding-bottom:0}
+  .relay-bank{min-width:0;display:grid;grid-template-columns:65px minmax(0,1fr);align-items:center;gap:6px;text-align:left;padding:7px 11px}
+  .relay-bank header{margin:0;font-size:11px}
+  .relay-bank header b{font-size:16px;margin-left:3px}
+  .relay-bulbs{justify-content:space-around;gap:5px;flex-wrap:nowrap}
+  .relay-unit{min-width:20px;font-size:10px}
+  .relay-unit i{width:13px;height:13px}
+}
+@media(max-width:359px){
+  .app{padding-left:8px;padding-right:8px}
+  .panel-pad{padding:11px}
+  .panel-header .tag,.crossbar-head .tag{font-size:8px}
+  .controls{gap:6px}
+  .btn{padding:9px 5px;font-size:12px}
+  .number-input{font-size:21px}
+  .tab{font-size:11px}
+  .relay-bank{grid-template-columns:58px minmax(0,1fr);padding:6px 7px}
+  .relay-bulbs{gap:3px}
+  .relay-unit{min-width:17px}
+}
+/* One contact and its controls share the same work surface. */
+.trace-actions{display:flex;justify-content:flex-end;margin-top:14px;padding-top:13px;border-top:1px solid var(--border)}
+.trace-actions .btn{min-width:150px}
+.experiment-panel{max-width:1060px;margin:auto;padding:20px}
+.experiment-heading{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.experiment-heading h2{font-size:21px;margin:0 0 4px}.experiment-heading p{font-size:13px;color:var(--muted)}
+.experiment-heading .btn{white-space:nowrap;min-width:150px}
+.experiment-workbench{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:center}
+.contact-board{border:1px solid #365674;border-radius:14px;background:#081b2c;overflow:hidden}
+.contact-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 14px 0;font-size:12px;color:#c3d8e7}
+.connection-count{color:var(--teal);white-space:nowrap;font-size:11px}
+.contact-svg{display:block;width:100%;height:172px}.contact-svg text{font-family:inherit}
+.contact-caption{text-align:center;color:#93adc1;font-size:11px;margin:0 10px 8px}
+.magnet-roles{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #28455c}
+.magnet-role{padding:9px 10px;font-size:12px;line-height:1.5}.magnet-role+.magnet-role{border-left:1px solid #28455c}
+.magnet-role span{display:block;color:#98b1c5;font-size:10px}.magnet-role b{font-size:12px;color:#b4c5d6}.magnet-role.is-on b{color:var(--amber)}.magnet-role.holding.is-on b{color:var(--blue)}
+.experiment-controls .mech-form{margin:0 0 10px;gap:9px}.experiment-controls .select-input{padding:8px 10px}
+.experiment-controls .mech-controls{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.step-action{padding:12px 5px;min-height:72px;line-height:1.45;font-size:14px}
+.step-action small{display:block;font-size:10px;font-weight:400;color:#b5cfe0;margin-top:4px}
+.step-action.is-next{border-color:var(--amber);box-shadow:inset 0 0 0 1px #ffbf6f66;background:#243d50}
+.step-action[aria-pressed="true"]{background:#1b4650}
+.release-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.release-actions .btn{min-height:41px;font-size:12px;padding:8px 6px}
+.experiment-panel .mechanic-status{min-height:72px;margin-top:12px;padding:10px 12px;font-size:12px;line-height:1.55}
+.experiment-panel .mechanic-status strong{font-size:13px;margin-bottom:2px}
+.experiment-panel .mechanic-status:before{content:'直前の操作';display:block;font-size:10px;color:#8ba8bc;margin-bottom:2px}
+.target-hint{color:#ffdaaa;font-size:11px;line-height:1.5;margin:0 0 9px}
+.mech-detail-stack{max-width:1060px;margin:13px auto 0;display:grid;gap:9px}
+.mech-detail{border:1px solid #35536e;border-radius:12px;background:#0b2034;overflow:hidden}
+.mech-detail summary{cursor:pointer;padding:13px 16px;font-size:13px;font-weight:700;color:#d3e9f6;min-height:46px}
+.mech-detail summary::marker{color:var(--blue)}.mech-detail[open] summary{border-bottom:1px solid #304a62}
+.mech-detail-content{padding:15px 16px;font-size:13px;color:#bacfe0}.mech-detail-content p+p{margin-top:10px}
+.mech-detail-content strong{color:#e4f4fd}.mech-detail .mech-grid{margin-top:13px}
+.mech-detail .matrix{max-width:390px;margin:auto}.mechanism-mode .foot{max-width:1060px;margin-left:auto;margin-right:auto}
+.footer-reference summary{cursor:pointer;font-weight:700;color:#c3d5e5}.footer-reference .sources{margin-bottom:12px}
+@media(max-width:700px){
+ .mechanism-mode .top{margin-bottom:9px}.mechanism-mode .hero{margin-bottom:10px}
+ .mechanism-mode .hero>.eyebrow,.mechanism-mode .hero>h1,.mechanism-mode .hero>.intro{display:none}
+ .mechanism-mode .tabs{margin-top:0;padding-bottom:8px}.mechanism-mode .tab{padding:8px 9px}
+ .experiment-panel{padding:12px}.experiment-heading{gap:8px;margin-bottom:10px;align-items:start}
+ .experiment-heading h2{font-size:17px;line-height:1.4}.experiment-heading p{font-size:11px}
+ .experiment-heading .btn{min-width:0;padding:8px 9px;font-size:11px;min-height:40px}
+ .experiment-workbench{grid-template-columns:minmax(0,1fr);gap:11px}.contact-svg{height:133px}
+ .contact-heading{padding:9px 10px 0;font-size:11px}.contact-caption{font-size:10px;margin-bottom:6px}
+ .magnet-role{padding:6px 9px;font-size:11px}.magnet-role b{font-size:11px}
+ .experiment-controls .mech-form{margin-bottom:8px}.experiment-controls .field-label{font-size:11px;margin-bottom:4px}
+ .experiment-controls .select-input{padding:6px 9px;font-size:13px;min-height:38px}
+ .step-action{min-height:64px;font-size:13px;padding:8px 3px}.step-action small{font-size:10px;margin-top:3px}
+ .experiment-panel .mechanic-status{margin-top:10px;min-height:63px;font-size:11px;padding:8px 10px}
+ .experiment-panel .mechanic-status strong{font-size:12px}.mech-detail summary{padding:11px 12px;font-size:12px}
+ .mech-detail-content{padding:12px;font-size:12px}.mechanism-mode .foot{margin-top:18px;padding-top:12px}
+}
+@media(max-width:359px),(max-height:700px) and (max-width:700px){
+ .mechanism-mode .app{padding-top:10px}.mechanism-mode .brand-icon{width:25px;height:25px;padding:5px}
+ .mechanism-mode .top>.pill{display:none}.mechanism-mode .top{margin-bottom:7px}
+ .mechanism-mode .brand{font-size:12px}.mechanism-mode .version{font-size:9px}
+ .experiment-heading h2{font-size:15px}.experiment-heading p{display:none}.experiment-heading .btn{min-height:36px}
+ .contact-svg{height:109px}.contact-caption{display:none}.magnet-role span{font-size:9px}
+ .step-action{min-height:57px;font-size:12px}.step-action small{font-size:9px}
+ .experiment-workbench{gap:8px}.experiment-panel .mechanic-status{min-height:59px}
+}
+/* Mechanical parts and electrical wires have separate shapes and colors. */
+.contact-svg.mechanical-svg{height:254px}.motion-part{transform-box:view-box;transition:transform .42s ease}
+#selectArmature{transform-origin:92px 52px;transition-duration:.16s}
+#selectBar{transform-origin:110px 86px;transition-delay:.04s}
+#holdArmature{transform-origin:300px 72px;transition-duration:.16s}
+#holdBar{transform-origin:295px 183px;transition-delay:.04s}
+#contactLeaf{transform-origin:137px 195px;transition-delay:.12s}
+#operatingCard{transition-delay:.09s}
+.mechanical-svg .coil{fill:#172e42;stroke:#7292a8;stroke-width:1.5;transition:fill .2s,stroke .2s}
+.mechanical-svg .select-on{fill:#684b27;stroke:#ffbf6f}.mechanical-svg .hold-on{fill:#23556b;stroke:#68dafb}
+.mechanical-svg text{paint-order:stroke;stroke:#081b2c;stroke-width:2.5px;stroke-linejoin:round}
+.mechanism-note{color:#93adc1;font-size:10px;text-align:center;margin:3px 8px 6px}
+.fabric-overview{border:1px solid #37576c;border-radius:12px;background:#091c2d;padding:10px 12px;margin:13px 0}
+.fabric-overview-head{display:flex;justify-content:space-between;gap:9px;font-size:12px;color:#c4d9e6;flex-wrap:wrap}
+.fabric-overview-head span{font-size:10px;color:#a1bbc8}.fabric-overview svg{width:100%;height:157px;display:block}
+.fabric-status{font-size:11px;color:#b5d9dc;margin-top:3px;min-height:18px}
+.fabric-stage-wrap{position:relative;padding:0 12px}.fabric-stage-wrap .crossbar-grid{gap:24px}
+#stageLinks{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:hidden}
+.cable-planned{fill:none;stroke:#578197;stroke-width:2;stroke-dasharray:4 5;opacity:.5}
+.cable-live{fill:none;stroke:#7cf0ce;stroke-width:3.5;stroke-linejoin:round;stroke-linecap:round}
+.cable-flow{fill:none;stroke:#d2ffef;stroke-width:1.5;stroke-dasharray:3 13;animation:cableFlow 1.4s linear infinite}
+.matrix .electrical-path{fill:none;stroke:#7cf0ce;stroke-width:3.5;stroke-linejoin:round;stroke-linecap:round}
+.matrix text{paint-order:stroke;stroke:#0d1d30;stroke-width:3px;stroke-linejoin:round}
+@keyframes cableFlow{to{stroke-dashoffset:-32}}
+@media(max-width:700px){.mechanism-mode .top>.pill{display:none}.contact-svg.mechanical-svg{height:200px}.experiment-heading h2{font-size:16px}.fabric-overview{padding:9px}.fabric-overview svg{height:141px}.fabric-stage-wrap .crossbar-grid{gap:32px}}
+@media(max-width:359px),(max-height:700px) and (max-width:700px){.contact-svg.mechanical-svg{height:167px}.mechanism-note{font-size:9px;margin:2px 5px 4px}.experiment-panel .mechanic-status{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.motion-part{transition:none!important}.cable-flow{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span> CROSSBAR LAB <span class="version">v1.6.0 · BUILD 2026.10.17.06</span></div>
+  <div class="pill"><span class="dot"></span> オフライン動作 / 外部ライブラリなし</div>
+</header>
+<section class="hero">
+  <div class="eyebrow">INTERACTIVE TELEPHONE EXCHANGE</div>
+  <h1>5桁の電話は、どうつながる？</h1>
+  <p class="intro">ダイヤルした番号を<strong>パルスで送り</strong>、リレーで<strong>数えて記録</strong>し、制御装置が<strong>空いた経路を選び</strong>、金属の交点を<strong>接続・保持</strong>する。クロスバー交換機の基本を、1ステップずつ体験できます。</p>
+  <div class="tabs" role="tablist" aria-label="表示モード">
+    <button type="button" class="tab" id="tabCall" role="tab" aria-selected="true" aria-controls="viewCall"><span class="tab-number">01</span>5桁の発信シミュレーション</button>
+    <button type="button" class="tab" id="tabMechanism" role="tab" aria-selected="false" aria-controls="viewMechanism"><span class="tab-number">02</span>交点のしくみを実験</button>
+  </div>
+</section>
+<button id="floatingPause" class="floating-pause" type="button" aria-label="自動再生を一時停止">Ⅱ 一時停止</button>
+<main>
+<section id="viewCall" role="tabpanel" aria-labelledby="tabCall">
+  <div class="workspace">
+    <aside class="left">
+      <section class="panel panel-pad">
+        <div class="panel-header"><h2>発信操作</h2><span class="tag">DIAL</span></div>
+        <div class="input-row">
+          <div><label class="field-label" for="phoneNumber">相手の電話番号（5桁）</label><input id="phoneNumber" class="number-input" type="text" inputmode="numeric" pattern="[0-9]{5}" autocomplete="off" maxlength="5" value="58327" aria-describedby="numberHelp" spellcheck="false"></div>
+          <div><label class="field-label" for="originLine">発信回線</label><select id="originLine" class="select-input" aria-label="発信回線"><option value="0">回線 0</option><option value="1">回線 1</option><option value="2" selected>回線 2</option><option value="3">回線 3</option><option value="4">回線 4</option><option value="5">回線 5</option><option value="6">回線 6</option><option value="7">回線 7</option><option value="8">回線 8</option><option value="9">回線 9</option></select></div>
+        </div>
+        <p id="numberHelp" class="number-help">例：<code>58327</code>。下のテンキーでも変更できます。</p>
+        <div class="keypad" id="keypad" aria-label="電話のテンキー">
+          <button type="button" class="key" data-key="1">1</button><button type="button" class="key" data-key="2">2</button><button type="button" class="key" data-key="3">3</button>
+          <button type="button" class="key" data-key="4">4</button><button type="button" class="key" data-key="5">5</button><button type="button" class="key" data-key="6">6</button>
+          <button type="button" class="key" data-key="7">7</button><button type="button" class="key" data-key="8">8</button><button type="button" class="key" data-key="9">9</button>
+          <button type="button" class="key utility" data-key="clear">消去</button><button type="button" class="key" data-key="0">0</button><button type="button" class="key utility" data-key="back">⌫</button>
+        </div>
+        <div class="controls">
+          <button id="playCall" class="btn btn-primary" type="button">▶ 自動再生</button>
+          <button id="nextCall" class="btn" type="button">→ 1ステップ</button>
+          <button id="resetCall" class="btn" type="button">↺ 最初から</button>
+          <button id="hangCall" class="btn btn-warn" type="button">✕ 切断</button>
+        </div>
+        <label class="follow-option" for="autoFollow"><input id="autoFollow" type="checkbox" checked><span>自動再生中、動作している場所に画面を移動</span></label>
+        <section class="sound-panel" aria-label="音と動作の設定">
+          <div class="sound-heading"><strong>音と観察の設定</strong><span class="tag">WEB AUDIO / JAPAN</span></div>
+          <label class="follow-option sound-toggle" for="soundEnabled"><input id="soundEnabled" type="checkbox" checked><span>電話音・リレー音・クロスバー機械音を鳴らす</span></label>
+          <label for="soundVolume" class="field-label">音量 <output id="soundVolumeValue" for="soundVolume">80%</output></label>
+          <input id="soundVolume" type="range" min="0" max="60" step="1" value="48" aria-label="電話音・機械音の音量" aria-valuetext="80%">
+          <div class="sound-preview"><select id="soundPreview" class="select-input" aria-label="試聴する音">
+            <option value="dt">DT（発信音）</option><option value="rbt">RBT（呼出中音）</option><option value="bt">BT（話中音）</option><option value="offhook">受話器を上げる機械音</option><option value="pulse">ダイヤルパルスのクリック音</option><option value="hwt">HWT（受話器外れ警告音・模式）</option><option value="select">選択磁石 ON（カチッ）</option><option value="hold">保持磁石 ON・接点閉（ガチャッ）</option><option value="unselect">選択磁石 OFF（カタッ）</option><option value="release">保持解除・接点解放（カラッ）</option>
+          </select><button type="button" class="btn" id="soundTest">♪ 試聴</button></div>
+          <label for="observePause" class="field-label observe-label">処理の切替時に待機 <output id="observePauseValue" for="observePause">1.1秒</output></label>
+          <input id="observePause" type="range" min="600" max="2000" step="100" value="1100" aria-label="各動作を観察するための待機時間">
+          <p class="micro muted">自動再生だけに適用。パルスの10/20 PPS比較はこれまでどおり維持します。音声はブラウザ内で生成し、外部通信しません。</p>
+          <p class="micro muted">DT・RBT・BTは日本の電話音の代表例に準拠した近似音。パルス・フック・HWT・磁石の機械音は教材用です。音量は最大を100%として表示します。端末の音量に注意してください。</p>
+        </section>
+        <div class="pulse-settings">
+          <div><label for="pulseRate" class="field-label">日本のダイヤル方式</label>
+            <select id="pulseRate" class="select-input"><option value="10" selected>10 PPS（1秒に10回）</option><option value="20">20 PPS（1秒に20回）</option></select></div>
+          <div><label for="pulseSlow" class="field-label">パルス表示の速さ</label>
+            <select id="pulseSlow" class="select-input"><option value="4" selected>4倍スロー（観察向け）</option><option value="1">実時間に近い（1倍）</option><option value="8">8倍スロー（詳細観察）</option></select></div>
+          <p class="micro muted">PPS＝1秒間の断続回数。スロー表示は画面だけを引き延ばします。基準の実時間値は下のパネルに表示します。</p>
+        </div>
+        <div class="scenario"><label for="scenario" class="field-label">経路の状態</label>
+          <select id="scenario" class="select-input"><option value="normal">通常：空き経路あり</option><option value="detour">中継路の一部が使用中（迂回）</option><option value="full">中継路がすべて使用中（接続不可）</option></select>
+        </div>
+        <div class="speedline"><label for="speed">交換機操作の基本間隔</label><span id="speedValue" class="mono">0.9秒（観察待機を優先）</span></div>
+        <input id="speed" type="range" min="300" max="1600" value="900" step="100" aria-label="ステップ再生間隔">
+      </section>
+      <section class="hint-block"><strong>最初に試すには</strong><br>「▶ 自動再生」を押してください。<strong>受信リレーが切れるとパルスを1回数える</strong>様子を、音と待機付きで確認できます。細かく見るなら「→ 1ステップ」。<br><br><span class="muted">10 / 20 PPSの比較は「最初から」でやり直してください。接続中は保持磁石がONのままです。</span></section>
+    </aside>
+    <div class="right">
+      <section class="panel panel-pad">
+        <div class="panel-header"><h2>① 数字を受け取る</h2><span class="tag">REGISTER / MARKER</span></div>
+        <div class="subscriber-flow">
+          <div class="endpoint"><div class="iconphone" aria-hidden="true">☎</div><div id="originShown" class="value">LINE 2</div><div class="sub">発信者</div></div>
+          <span class="arrow" aria-hidden="true">›</span>
+          <div class="register"><div class="regtitle"><span>レジスタ（数字の記録）</span><span id="dialCount" class="mono">0 / 5</span></div><div id="digitBoxes" class="digits" aria-label="記録した5桁"></div><div class="split" id="numberSplit">番号の入力待ち</div></div>
+          <span class="arrow" aria-hidden="true">›</span>
+          <div class="endpoint"><div class="iconphone" aria-hidden="true">♧</div><div id="calledShown" class="value">-----</div><div class="sub">着信先</div></div>
+        </div>
+        <div class="computer"><div class="chip" aria-hidden="true">M</div><div><strong>マーカ — 接続先と空き経路を判断する装置</strong><p id="markerText">レジスタが番号を受け取ると、マーカが使用可能な中継経路を探します。</p></div></div>
+        <div class="statusbox" aria-live="polite"><div id="statusTitle" class="status-title">待機中</div><div id="statusMessage" class="status-message">5桁の番号を設定して、発信を始めてください。</div><div class="progress"><div id="progressBar" class="bar"></div></div></div>
+      </section>
+      <section class="panel panel-pad">
+        <div class="panel-header"><h2>② パルスを受け、リレーで数える</h2><span class="tag">PULSE / RELAY REGISTER</span></div>
+        <p class="muted tiny" style="margin-bottom:13px">電話機のダイヤル接点は、通常は閉じています（メーク）。ダイヤルが戻ると一時的に開き（ブレーク）、受信リレーがOFFになります。ここではその立ち下がりを1パルスと数えます。</p>
+        <div class="pulse-overview">
+          <div class="pulse-stat"><span class="field-label">方式</span><strong id="pulseModeLabel">10 PPS</strong><small id="pulseTimingLabel">周期 100ms（断 67 / 接 33）</small></div>
+          <div class="pulse-stat"><span class="field-label">回線接点</span><strong id="contactLabel">接続 / MAKE</strong><small>電流が流れる状態が通常</small></div>
+          <div class="pulse-stat"><span class="field-label">受信リレー R</span><strong id="receiverRelayLabel">● ON（吸引）</strong><small>接点と同じ通電状態の模式表現</small></div>
+          <div class="pulse-stat"><span class="field-label">計数リレー</span><strong id="counterLabel">0 / 0</strong><small id="counterDetail">発信前</small></div>
+        </div>
+        <div class="signal-legend"><span><i class="sig-dot make"></i>メーク：接点閉／受信R ON</span><span><i class="sig-dot break"></i>ブレーク：接点開／受信R OFF（計数）</span></div>
+        <div id="signalWave" class="wavebox" aria-label="現在の数字のダイヤルパルス波形"></div>
+        <div class="count-area"><div class="field-label" id="counterHeading">計数中のパルス（計数リレー群の模式図）</div><div id="relayCounter" class="counter-lights"></div><p class="micro muted">点灯は「ここまで数えた回数」の教材用表示。実機の計数リレーの結線・保持方式をそのまま再現していません。</p></div>
+        <h3 class="register-heading">数字を記憶するリレー群：5桁 × 5個</h3>
+        <p class="tiny muted" style="margin-bottom:10px">2-out-of-5符号：5個中ちょうど2個だけONにする例。重み 0・1・2・4・7 の組み合わせで数字を保存します（0は特例で4＋7）。北米のNo.5クロスバー等に採用された方式の例であり、日本の全機種共通の回路ではありません。</p>
+        <div class="relay-banks" id="memoryRelays" aria-label="記憶リレーの状態"></div>
+        <p id="pulseNarration" class="micro pulse-narration" aria-live="polite">受話器を上げると、回線は通常のメーク状態から始まります。</p>
+      </section>
+      <section class="panel panel-pad">
+        <div class="crossbar-head"><div><h2>③ 交点をつなぐ</h2><p class="muted tiny">説明用の3段の交換網。横＝選択、縦＝保持の動きを観察してください。<span class="mobile-only">スマホでは各段を縦に並べて表示します。</span></p></div><span class="tag">3-STAGE SWITCH FABRIC</span></div>
+        <div class="fabric-overview"><div class="fabric-overview-head"><strong>3段を通る道</strong><span>点線：予定 ／ 緑：つながった道</span></div><div id="fabricOverview"></div><p id="fabricStatus" class="fabric-status">番号を受け取ると、つなぐ経路を探します。</p></div>
+        <div class="fabric-stage-wrap" id="fabricStageWrap"><div class="crossbar-grid" id="switchGrid" aria-label="3段のクロスバースイッチ"></div><svg id="stageLinks" aria-hidden="true"></svg></div>
+        <div class="legend"><span><i class="swatch a"></i>横の選択磁石 ON</span><span><i class="swatch c"></i>縦の保持磁石 ON</span><span><i class="swatch g"></i>交点を接続中</span><span><i class="swatch r"></i>使用できない経路</span></div>
+        <div id="routeStrip" class="route-strip" aria-label="現在の通信経路"></div>
+      </section>
+      <section class="panel panel-pad"><div class="panel-header"><h2>動作の記録</h2><span class="tag">TRACE</span></div><ol id="callLog" class="log" aria-live="polite"><li>シミュレーション開始前です。</li></ol><div class="trace-actions"><button id="hangCallLog" class="btn btn-warn" type="button">✕ 切断</button></div></section>
+    </div>
+  </div>
+  <div class="teachgrid">
+    <article class="teachitem"><div class="teachnum">01</div><strong>パルスを数え、番号を記録する</strong><p>ブレーク信号を受信リレーで捉えて計数し、数字を記憶リレーに移します。番号が直接クロスバーの棒を動かすわけではありません。</p></article>
+    <article class="teachitem"><div class="teachnum">02</div><strong>空いている経路を選ぶ</strong><p>マーカが接続先と回線の空きを判断します。使用中なら別の中継路を選ぶこともあります。</p></article>
+    <article class="teachitem"><div class="teachnum">03</div><strong>接点を保持して通話する</strong><p>横の選択磁石は一時的に動き、縦の保持磁石が通話中の接続を維持します。</p></article>
+  </div>
+  <p class="explainbar"><b>モデルの範囲：</b>パルスのタイミング（例：メーク率33％）は日本の技術基準内に設定しています。パルスの受信・計数リレー・2-out-of-5符号は動作原理を表すモデルで、特定の日本製交換機の回路図そのものではありません。5桁の番号と3段の10×10スイッチは、動作原理を理解するための<strong>概念モデル</strong>です。スイッチの段数は電話番号の桁数と直接対応しません。10×10の装置3台だけで10万番号を収容できるという意味ではありません。実際の交換機では、多数のスイッチ、接続線、リレー、番号変換装置などを組み合わせます。また「上2桁＋下3桁」という区切りは教材用です。</p>
+</section>
+<section id="viewMechanism" class="hidden" role="tabpanel" aria-labelledby="tabMechanism">
+  <section class="panel experiment-panel" aria-label="1つの交点の実験">
+    <div class="experiment-heading"><div><h2>1つの交点をつないでみよう</h2><p>2つの役割を、①→②→③で確かめます。</p></div><button id="mechDemo" type="button" class="btn btn-primary">▶ 順番に見る</button></div>
+    <div class="experiment-workbench">
+      <div class="contact-board">
+        <div class="contact-heading"><strong id="contactTarget">行2 × 列7</strong><span id="connectionCount" class="connection-count">接続中 0か所</span></div>
+        <div id="contactDiagram"></div>
+        <p id="mechanismNarration" class="contact-caption">磁石→バー→つめ→接点の順に動きます。</p><p class="mechanism-note">部品の間隔と動きを広げた模式図です。</p>
+        <div class="magnet-roles"><div id="selectRole" class="magnet-role"><span>選ぶ役（選択磁石）</span><b>OFF</b></div><div id="holdRole" class="magnet-role holding"><span>つなぎ続ける役（保持磁石）</span><b>OFF</b></div></div>
+      </div>
+      <div class="experiment-controls">
+        <div class="mech-form"><div><label class="field-label" for="mechRow">選びたい行</label><select id="mechRow" class="select-input"></select></div><div><label class="field-label" for="mechCol">つなぐ列</label><select id="mechCol" class="select-input"></select></div></div>
+        <p id="mechTargetHint" class="target-hint hidden"></p>
+        <div class="mech-controls"><button id="mechSelect" type="button" class="btn step-action">① 選ぶ<small>接続の準備</small></button><button id="mechHold" type="button" class="btn step-action">② つなぐ<small>接点を閉じる</small></button><button id="mechUnselect" type="button" class="btn step-action">③ 選択を戻す<small>接続はそのまま</small></button></div>
+        <div class="release-actions"><button id="mechRelease" type="button" class="btn btn-warn">この列を切る</button><button id="mechReset" type="button" class="btn">全部やり直す</button></div>
+        <div id="mechStatus" class="mechanic-status" aria-live="polite"><strong>①から試してください</strong>選ぶだけではつながりません。②で接点を閉じます。</div>
+      </div>
+    </div>
+  </section>
+  <div class="mech-detail-stack">
+    <details class="mech-detail" id="mechExplanation"><summary>なぜ③を押しても、切れないの？</summary><div class="mech-detail-content"><p><strong>① 選ぶ役</strong>は「どの行をつなぐか」を準備します。これだけでは、新しい接点は閉じません。</p><p><strong>② つなぎ続ける役</strong>が、その行と列の接点を閉じて支えます。ここで通話の道ができます。</p><p><strong>③ 選ぶ役だけを戻す</strong>と、横のバーは元に戻ります。その交点の柔らかいつめだけが縦のバーに押さえられて残るため、接点は閉じたままです。選ぶ役を次の接続に使えます。</p><p>切りたいときは<strong>「この列を切る」</strong>を押します。ほかの列の接続は残ります。</p></div></details>
+    <details class="mech-detail" id="mechAdvanced"><summary>10×10の全体図で試す・複数の接続を作る</summary><div class="mech-detail-content"><p>①〜③の後に別の行・列を指定すると、前の接続を保ったまま次を作れます。下の丸を押しても行・列を指定できます。<strong>同じ列は、同時に2つの行へつなげません。</strong></p><div class="mech-grid"><div class="mechanic-big"><div id="mechSvgWrap"></div><p class="visual-note">横線10本は電気的な行の模式図。5本の選択バーを上下に動かし、10行を選ぶ形式を表しています。</p></div><div><h3>選択バー（5本）</h3><div id="barsVisualization" class="bar-pair"></div><p id="selectedBarDesc" class="bar-note"></p><h3 style="margin-top:16px">保持磁石（10本）</h3><div id="holdsVisualization" class="holding-mini"></div><p class="bar-note">点灯中の列は、接点を閉じたまま支えています。</p></div></div></div></details>
+    <details class="mech-detail"><summary>実際の交換機との違い</summary><div class="mech-detail-content"><p>図は柔軟な選択指（つめ）を使うBell型の一形式を参考に、部品の間隔や動きを広げて描いたものです。磁石が可動鉄片を引き、バー・つめ・押し具を介して接点ばねを動かします。実際は複数の接点ばねをまとめて動かし、通話に必要な複数の導線を切り替えます。横棒と縦棒を直接触れさせる仕組みではありません。</p></div></details>
+  </div>
+</section>
+</main>
+<footer class="foot"><details class="footer-reference"><summary>参考資料・実機との対応</summary><p>実機の選択磁石・保持磁石・交点の機構と、レジスタ／マーカの役割を参考資料と照合しています。日本の電話音は400Hzを基本に近似生成し、磁石の作動・接点解放の機械音と長時間の警告音は簡略モデルです。番号から交点座標を算出する規則、交換網の段数、故障シナリオは説明用に簡略化しています。</p><div class="sources"><a target="_blank" rel="noopener noreferrer" href="https://archive.org/stream/bstj18-1-76/bstj18-1-76_djvu.txt">Bell原論文：選択指と保持機構（1939、pp.82–85）↗</a><a target="_blank" rel="noopener noreferrer" href="https://laws.e-gov.go.jp/law/360M50001000031">e-Gov 端末設備等規則：10/20 PPS・休止時間↗</a><a target="_blank" rel="noopener noreferrer" href="https://ibm1401.computerhistory.org/qui-binary.html">Computer History: 2-out-of-5符号↗</a><a target="_blank" rel="noopener noreferrer" href="https://www.telephonetribute.com/switches_survey_chapter_6.html">クロスバーの動作構造（Survey of Telephone Switching）↗</a><a target="_blank" rel="noopener noreferrer" href="https://www.calling315.com/crossbar-exchange">No.5クロスバー交換機とマーカ↗</a><a target="_blank" rel="noopener noreferrer" href="https://www.ericsson.com/en/about-us/history/products/the-switches/crossbar-switches-replace-operators">Ericssonによる技術史↗</a><a target="_blank" rel="noopener noreferrer" href="https://www.fa-mart.co.jp/how/05.html">日本の電話音（DT 400Hz / RBT 1秒・2秒 / BT 0.5秒）↗</a><a target="_blank" rel="noopener noreferrer" href="https://www.ntt-east.co.jp/aboutus/pdf/kasetsu_tel.pdf">NTT東日本：オフフックとハウラ音の区別↗</a></div></details><p class="mono" style="margin-top:15px">CROSSBAR LAB · single-file HTML · v1.6.0 · 2026-10-17.06 · cache cb-lab-1.6.0-20261017-06</p><p class="copyright">© 2026 SIKUMI LAB</p></footer>
+</div>
+<script>
+(()=>{'use strict';
+const BUILD = '2026-10-17.06'; // Change on each update/deployment. No external assets.
+const CACHE_BUSTER='cb-lab-1.6.0-20261017-06';
+const $=id=>document.getElementById(id);
+const num=val=>Number.parseInt(val,10);
+const safeDigits=str=>String(str).replace(/[^0-9]/g,'').slice(0,5);
+const call={steps:[],position:-1,running:false,timer:null,plan:null,number:'58327',origin:2,scenario:'normal',registered:'',blocks:[],states:[],title:'待機中',description:'5桁の番号を設定して、発信を始めてください。',marker:'レジスタが番号を受け取ると、マーカが使用可能な中継経路を探します。',status:'idle',history:[],padEditing:false,pulseRate:10,slowFactor:4,currentDigit:null,currentIndex:-1,pulseCount:0,dialContact:'make',pulsePhase:'idle',storedCodes:[],pulseNarration:'受話器を上げると、回線は通常のメーク状態から始まります。',pathRevealed:false};
+const mech={row:2,col:7,selectedRow:null,holds:Array(10).fill(null),statusTitle:'①から試してください',statusDetail:'選ぶだけではつながりません。②で接点を閉じます。',demoTimers:[]};
+const mkStage=()=>({selectedRow:null,holdCol:null,closed:false,blockedCols:[]});
+call.states=[mkStage(),mkStage(),mkStage()];
+const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function announce(t,d){call.title=t;call.description=d;}
+function log(action){call.history.push({n:call.history.length+1,text:action});if(call.history.length>50)call.history.shift();}
+function derivePlan(digits,origin,scenario){
+  // Illustrative path mapping, NOT actual historical marker wiring.
+  const a=(num(digits.slice(0,2))+origin*3)%10;
+  const preferred=(num(digits.slice(2,4))+num(digits[4])+2)%10;
+  const b=scenario==='detour'?(preferred+1)%10:preferred;
+  return {preferred,blocked:scenario==='full'?Array.from({length:10},(_,i)=>i):scenario==='detour'?[preferred]:[],stages:[{row:origin,col:a},{row:a,col:b},{row:b,col:num(digits[4])}],detour:scenario==='detour',full:scenario==='full'};
+}
+const weights=[0,1,2,4,7];
+const digitRelayCodes={'1':[0,1],'2':[0,2],'3':[1,2],'4':[0,4],'5':[1,4],'6':[2,4],'7':[0,7],'8':[1,7],'9':[2,7],'0':[4,7]};
+const pulsesFor=d=>d==='0'?10:Number(d);
+const pulseMs=(pps)=>1000/pps;
+const makeMs=(pps)=>pulseMs(pps)*.33; // Example 33% make ratio; compliant with both modes.
+const breakMs=(pps)=>pulseMs(pps)*.67;
+const pauseMs=(pps)=>pps===10?600:450;
+function createSteps(plan,digits){
+  let steps=[{type:'offhook'}];
+  for(let i=0;i<5;i++){
+    const digit=digits[i],count=pulsesFor(digit);
+    steps.push({type:'digitstart',digit,index:i,count});
+    for(let p=1;p<=count;p++){
+      steps.push({type:'pulseBreak',digit,index:i,count,pulse:p});
+      steps.push({type:'pulseMake',digit,index:i,count,pulse:p});
+    }
+    steps.push({type:'digitpause',digit,index:i,count});
+    steps.push({type:'digitcommit',digit,index:i,count});
+  }
+  steps.push({type:'decode'},{type:'scan'});
+  if(plan.full){steps.push({type:'busy'});return steps;}
+  if(plan.detour)steps.push({type:'detour'});
+  for(let s=0;s<3;s++)steps.push({type:'select',s},{type:'hold',s},{type:'unselect',s});
+  steps.push({type:'ring'},{type:'connect'});
+  return steps;
+}
+// Observe the outcome of each logical operation before moving on. Pulse timing stays independent.
+function observationMs(){return num($('observePause').value);}
+function durationAfter(st){
+  const wait=observationMs();
+  if(st.type==='offhook')return Math.max(wait,1450); // Listen to the Japanese 400Hz dial tone before dialing.
+  if(st.type==='ring')return Math.max(wait,3650); // Hear RBT's 1s ON / 2s OFF and start of its next ring.
+  if(st.type==='digitcommit'||st.type==='decode'||st.type==='scan'||st.type==='detour')return wait;
+  if(st.type==='select'||st.type==='hold'||st.type==='unselect')return Math.max(wait,num($('speed').value));
+  if(st.type==='pulseBreak')return Math.max(12,breakMs(call.pulseRate)*call.slowFactor);
+  if(st.type==='pulseMake')return Math.max(12,makeMs(call.pulseRate)*call.slowFactor);
+  if(st.type==='digitpause')return pauseMs(call.pulseRate);
+  if(st.type==='digitstart')return 250;
+  return num($('speed').value);
+}
+function startCall(){
+  followKey='';if(highlighted){highlighted.classList.remove('follow-focus');highlighted=null;}
+  const digits=safeDigits($('phoneNumber').value);
+  if(!/^\d{5}$/.test(digits)){announce('番号を確認してください','電話番号は半角数字の5桁で入力してください。');call.status='invalid';renderCall();$('phoneNumber').focus();return false;}
+  call.number=digits;call.origin=num($('originLine').value);call.scenario=$('scenario').value;call.pulseRate=num($('pulseRate').value);call.slowFactor=num($('pulseSlow').value);
+  call.registered='';call.plan=derivePlan(digits,call.origin,call.scenario);call.steps=createSteps(call.plan,digits);call.position=-1;call.status='dialing';call.history=[];call.states=[mkStage(),mkStage(),mkStage()];call.padEditing=false;call.currentDigit=null;call.currentIndex=-1;call.pulseCount=0;call.dialContact='make';call.pulsePhase='idle';call.storedCodes=[];call.pathRevealed=false;call.pulseNarration='受信リレーRがON。これからダイヤルパルスを受け取ります。';
+  announce('発信準備完了',`${digits} へ接続を開始します。`);
+  renderCall();return true;
+}
+// Keep scroll targeting independent from the circuit model.  Manual stepping never follows.
+let followKey='';
+let highlighted=null;
+function followStep(st){
+  if(!$('autoFollow').checked)return;
+  // Do not scroll for each MAKE/BREAK; a whole pulse train shares one visual region.
+  let key, target;
+  switch(st.type){
+    case 'offhook':key='reg';target=$('digitBoxes');break;
+    case 'digitstart':case 'pulseBreak':case 'pulseMake':case 'digitpause':
+      key='pulse';target=$('signalWave');break;
+    case 'digitcommit':
+      key='memory'+st.index;target=$('memoryRelays').children[st.index];break;
+    case 'decode':case 'scan':case 'detour':case 'busy':
+      key='marker';target=$('markerText');break;
+    case 'select':case 'hold':case 'unselect':
+      key='stage'+st.s;target=$('switchGrid').children[st.s];break;
+    case 'ring':case 'connect':
+      key='route';target=$('routeStrip');break;
+    default:return;
+  }
+  if(!target)return;
+  // Switch cards are rebuilt after every relay step, so restore the focus ring
+  // without scrolling again when the active stage is unchanged.
+  if(highlighted!==target){
+    if(highlighted)highlighted.classList.remove('follow-focus');
+    highlighted=target;highlighted.classList.add('follow-focus');
+  }
+  if(key===followKey)return;
+  followKey=key;
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  target.scrollIntoView({behavior:reduce?'instant':'smooth',block:'center',inline:'center'});
+}
+// Web Audio: generated locally; no media files, downloads or network calls.
+// Reference Japanese PSTN audible indications: DT 400Hz continuous; RBT 400Hz
+// amplitude modulated at ~16Hz, 1s ON / 2s OFF; BT 400Hz, 0.5s ON / 0.5s OFF.
+// Unlike these electrical tones, off-hook and rotary dialing "clicks" are illustrative mechanics.
+const sound={ctx:null,active:[],expire:null,mechanical:new Set()};
+function soundEnabled(){return $('soundEnabled').checked && Number($('soundVolume').value)>0;}
+function soundLevel(){return (Number($('soundVolume').value)/100)*0.33;}
+function ensureAudio(){
+  if(!soundEnabled())return null;
+  if(!sound.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C){$('soundEnabled').checked=false;return null;}try{sound.ctx=new C();}catch(e){$('soundEnabled').checked=false;return null;}}
+  if(sound.ctx.state==='suspended')sound.ctx.resume().catch(()=>{});
+  return sound.ctx;
+}
+function track(...nodes){sound.active.push(...nodes);}
+function clearTelephoneSound(){
+  if(sound.expire!==null){clearTimeout(sound.expire);sound.expire=null;}
+  for(const node of sound.active){try{node.stop?.();}catch(e){}try{node.disconnect();}catch(e){}}
+  sound.active=[];
+}
+function clearMechanicalSound(){
+  for(const node of sound.mechanical){try{node.stop?.();}catch(e){}try{node.disconnect();}catch(e){}}
+  sound.mechanical.clear();
+}
+function clearSound(){clearTelephoneSound();clearMechanicalSound();}
+function expireSound(ms){if(sound.expire!==null)clearTimeout(sound.expire);sound.expire=setTimeout(clearTelephoneSound,ms);}
+// A short filtered noise impact plus a low, damped body resonance. These are
+// illustrative mechanisms, not recordings of a particular exchange model.
+function mechanicalImpact(ctx,at,profile,level=1){
+  const duration=profile.duration,frames=Math.ceil(ctx.sampleRate*duration);
+  const buffer=ctx.createBuffer(1,frames,ctx.sampleRate),data=buffer.getChannelData(0);
+  for(let i=0;i<frames;i++)data[i]=Math.random()*2-1;
+  const noise=ctx.createBufferSource(),metal=ctx.createBiquadFilter(),hit=ctx.createGain();
+  const body=ctx.createOscillator(),bodyAmp=ctx.createGain();
+  noise.buffer=buffer;metal.type='bandpass';metal.frequency.value=profile.metalHz;metal.Q.value=.8;
+  const gain=soundLevel()*profile.level*level;
+  hit.gain.setValueAtTime(.00001,at);hit.gain.linearRampToValueAtTime(gain,at+.002);
+  hit.gain.exponentialRampToValueAtTime(.00001,at+duration);
+  body.type='sine';body.frequency.setValueAtTime(profile.bodyHz,at);
+  body.frequency.exponentialRampToValueAtTime(profile.bodyHz*.55,at+duration);
+  bodyAmp.gain.setValueAtTime(.00001,at);bodyAmp.gain.linearRampToValueAtTime(gain*.55,at+.004);
+  bodyAmp.gain.exponentialRampToValueAtTime(.00001,at+duration);
+  noise.connect(metal);metal.connect(hit);hit.connect(ctx.destination);
+  body.connect(bodyAmp);bodyAmp.connect(ctx.destination);
+  const nodes=[noise,metal,hit,body,bodyAmp];nodes.forEach(node=>sound.mechanical.add(node));
+  // Remove each finished impact, including its filters/gains, without touching telephone tones.
+  body.onended=()=>{for(const node of nodes){try{node.disconnect();}catch(e){}sound.mechanical.delete(node);}};
+  noise.start(at);noise.stop(at+duration);body.start(at);body.stop(at+duration+.005);
+}
+function mechanicalCue(type,count=1){
+  const profiles={
+    select:{bodyHz:170,metalHz:1850,duration:.105,level:.62},
+    hold:{bodyHz:105,metalHz:1200,duration:.16,level:.88},
+    unselect:{bodyHz:220,metalHz:2600,duration:.075,level:.42},
+    release:{bodyHz:135,metalHz:2200,duration:.13,level:.65}
+  };
+  const profile=profiles[type];if(!profile||count<1)return;
+  const ctx=ensureAudio();if(!ctx)return;
+  const at=ctx.currentTime+.005,layers=Math.min(3,count);
+  for(let i=0;i<layers;i++){
+    mechanicalImpact(ctx,at+i*.014,profile,1/Math.sqrt(layers));
+    mechanicalImpact(ctx,at+i*.014+.028,profile,.28/Math.sqrt(layers));
+  }
+}
+function releaseMechanisms(held,selected){
+  if(held>0)mechanicalCue('release',held);
+  if(selected>0)mechanicalCue('unselect',selected);
+}
+function updateVolumeLabel(){
+  const slider=$('soundVolume'),percent=Math.round(Number(slider.value)/Number(slider.max)*100)+'%';
+  $('soundVolumeValue').textContent=percent;slider.setAttribute('aria-valuetext',percent);
+}
+function oscillator(hz,when,stopAt,level=1,type='sine'){
+  const ctx=sound.ctx,osc=ctx.createOscillator(),amp=ctx.createGain();
+  osc.type=type;osc.frequency.setValueAtTime(hz,when);
+  const g=Math.max(0.00005,soundLevel()*level);
+  amp.gain.setValueAtTime(0.00001,when);amp.gain.linearRampToValueAtTime(g,when+.008);
+  amp.gain.setValueAtTime(g,Math.max(when+.01,stopAt-.02));amp.gain.linearRampToValueAtTime(0.00001,stopAt);
+  osc.connect(amp);amp.connect(ctx.destination);osc.start(when);osc.stop(stopAt+.025);track(osc,amp);
+  return amp;
+}
+function tick(level=1){
+  const ctx=sound.ctx;if(!ctx)return;
+  const at=ctx.currentTime+.003;
+  // An approximately mechanical click, not a claim that the DC pulse is an audio tone.
+  oscillator(650,at,at+.025,.45*level,'triangle');
+  oscillator(150,at,at+.034,.24*level,'sine');
+}
+function rbtVoice(at,duration){
+  const ctx=sound.ctx;
+  // AM: 400Hz sine, 16Hz modulator, and a shallow unmodulated floor.
+  const carrier=ctx.createOscillator(),lfo=ctx.createOscillator();
+  const mix=ctx.createGain(),base=ctx.createConstantSource(),depth=ctx.createGain(),envelope=ctx.createGain();
+  carrier.frequency.value=400;lfo.frequency.value=16;mix.gain.value=0;
+  base.offset.value=.5;depth.gain.value=.43;
+  envelope.gain.setValueAtTime(0.00001,at);
+  envelope.gain.linearRampToValueAtTime(soundLevel()*.72,at+.016);
+  envelope.gain.setValueAtTime(soundLevel()*.72,at+Math.max(.025,duration-.024));
+  envelope.gain.linearRampToValueAtTime(0.00001,at+duration);
+  base.connect(mix.gain);lfo.connect(depth);depth.connect(mix.gain);carrier.connect(mix);mix.connect(envelope);envelope.connect(ctx.destination);
+  carrier.start(at);lfo.start(at);base.start(at);
+  carrier.stop(at+duration+.025);lfo.stop(at+duration+.025);base.stop(at+duration+.025);
+  track(carrier,lfo,base,mix,depth,envelope);
+}
+function audioCue(type,preview=false){
+  if(['select','hold','unselect','release'].includes(type)){mechanicalCue(type);return;}
+  clearTelephoneSound();const ctx=ensureAudio();if(!ctx)return;
+  const now=ctx.currentTime+.012;
+  if(type==='offhook'){tick(1);expireSound(150);return;}
+  if(type==='pulse'){tick(.7);expireSound(150);return;}
+  if(type==='dt'){
+    oscillator(400,now,now+(preview?1.6:1.15),.7);
+    expireSound(preview?1800:1350);return;
+  }
+  if(type==='rbt'){
+    // Preview lasts just over 2 cycles; autoplay's ring-to-answer time ~3.65s.
+    const cycles=preview?2:2;
+    for(let i=0;i<cycles;i++)rbtVoice(now+i*3,1);
+    expireSound(preview?4400:3900);return;
+  }
+  if(type==='bt'){
+    for(let i=0;i<4;i++)oscillator(400,now+i,now+i+.5,.8);
+    expireSound(4300);return;
+  }
+  if(type==='hwt'){
+    // No single historical Japanese off-hook warning cadence is asserted here.
+    // Explicitly an educational approximation, available only via preview.
+    for(let i=0;i<7;i++)oscillator(850,now+i*.32,now+i*.32+.18,.5,'triangle');
+    expireSound(2600);return;
+  }
+}
+function soundForStep(st){
+  if(!soundEnabled()){clearSound();return;}
+  if(st.type==='offhook'){
+    audioCue('offhook'); // release the cradle, followed by the exchange dial tone
+    // Single gesture already unlocked AudioContext; schedule the DT after click.
+    const ctx=sound.ctx;
+    if(ctx){const at=ctx.currentTime+.09;oscillator(400,at,at+1.05,.7);expireSound(1400);}
+  }else if(st.type==='pulseBreak')audioCue('pulse');
+  else if(st.type==='pulseMake'){
+    // Do not cancel the click's envelope; a quieter, short make click follows.
+    // Pulse contact interruption itself is not an audible 400Hz signalling tone.
+    audioCue('pulse');
+  }else if(['select','hold','unselect'].includes(st.type))mechanicalCue(st.type);
+  else if(st.type==='ring')audioCue('rbt');
+  else if(st.type==='busy')audioCue('bt');
+  else if(st.type==='digitstart'||st.type==='connect'||st.type==='decode'||st.type==='scan'||st.type==='detour')clearTelephoneSound();
+}
+function stopAuto(){call.running=false;clearSound();if(call.timer!==null){clearTimeout(call.timer);call.timer=null;}$('floatingPause').classList.remove('is-visible');}
+
+function nextStep(){
+  if(call.steps.length===0&& !startCall())return false;
+  if(call.position>=call.steps.length-1)return false;
+  const st=call.steps[++call.position];const x=call.plan;let action='';
+  switch(st.type){
+    case 'offhook': call.status='dialing';announce('受話器を上げる','ダイヤルトーン。回線がメーク（接）になり、受信リレー R がONです。');call.pulseNarration='回線の接点は閉（MAKE）。受信リレーRが励磁されています。';action='受話器を上げ、パルス受信リレーを用意';break;
+    case 'digitstart':call.currentDigit=st.digit;call.currentIndex=st.index;call.pulseCount=0;call.dialContact='make';call.pulsePhase='start';announce(`${st.index+1}桁目「${st.digit}」を送出`,`ダイヤルが戻る間に ${st.count} 回、回線を断続します。0は10回です。`);call.pulseNarration=`${st.index+1}桁目「${st.digit}」：${st.count}個のブレークを送ります。`;action=`${st.index+1}桁目「${st.digit}」送出開始（${st.count}パルス）`;break;
+    case 'pulseBreak':call.dialContact='break';call.pulsePhase='break';call.pulseCount=st.pulse;announce(`${st.index+1}桁目：${st.pulse}回目のブレーク`,`接点を開く → 直流が途切れる → 受信リレーRがOFF → 計数が${st.pulse}に進みます。`);call.pulseNarration=`BREAK ${st.pulse}/${st.count}：電話線を切断し、受信リレーRが開放。計数は${st.pulse}。`;action=`${st.index+1}桁目「${st.digit}」BREAK ${st.pulse}/${st.count}：受信R OFF / 計数`;break;
+    case 'pulseMake':call.dialContact='make';call.pulsePhase='make';announce(`${st.index+1}桁目：${st.pulse}回目のメーク`,`接点を閉じる → 直流が戻る → 受信リレーRがON。次のブレークを待ちます。`);call.pulseNarration=`MAKE ${st.pulse}/${st.count}：回線がつながり、受信リレーRが再び吸引されます。`;action=`${st.index+1}桁目「${st.digit}」MAKE ${st.pulse}/${st.count}：受信R ON`;break;
+    case 'digitpause':call.dialContact='make';call.pulsePhase='pause';announce('数字の区切りを待つ',`パルス列の後、${pauseMs(call.pulseRate)}ms以上のメーク（連続通電）期間を確認します。この後、数字が確定します。`);call.pulseNarration=`${st.count}回のブレークを受信。${pauseMs(call.pulseRate)}msの休止を確認中。まだ数字は記憶リレーに転送していません。`;action=`${st.index+1}桁目：休止を確認（${pauseMs(call.pulseRate)}ms）`;break;
+    case 'digitcommit':call.dialContact='make';call.pulsePhase='pause';call.registered+=st.digit;call.storedCodes[st.index]=digitRelayCodes[st.digit];announce(`${st.index+1}桁目「${st.digit}」を記憶`,`パルス列と数字間の休止を確認したので、2-out-of-5符号の2個の記憶リレーをONにします。`);call.pulseNarration=`数字${st.digit}は${st.count}回のブレークから確定。符号 [${digitRelayCodes[st.digit].join('+')}] の2個の記憶リレーがON。`;action=`${st.index+1}桁目「${st.digit}」を記憶リレーへ転送（2/5符号）`;break;
+    case 'decode':call.status='routing';call.marker=`着信番号 ${call.number}（表示用区分：${call.number.slice(0,2)} / ${call.number.slice(2)}）を読み取り、利用できる経路を調査します。`;announce('マーカが番号を解釈','必要な番号がそろったので、接続先を判断します。');action='マーカへ番号を渡して接続先を判断';break;
+    case 'scan':call.pathRevealed=true;call.states[1].blockedCols=x.blocked.slice();call.marker=x.full?'中継段の10列すべてが使用中です。接続経路が見つかりません。':x.detour?`中継段の列 ${x.preferred} が使用中。別の列を調べています。`:'3段を通る空き経路が見つかりました。交点を順番に設定します。';announce('空き経路を探索',x.full?'中継路が満杯です。接続できる経路がありません。':x.detour?`第2段の列 ${x.preferred} は使用中。迂回できるか確認します。`:'通話に利用できる中継路を選びました。');action=x.full?'すべての中継路が使用中':x.detour?`第2段の列 ${x.preferred} は使用中`:'空いている中継経路を発見';break;
+    case 'busy':call.status='failed';call.marker='空いている経路がないため通話は成立しません。';announce('接続できません（話中）','中継路に空きがありません。経路の状態を変更して、再度試せます。');action='接続失敗：通話路不足';break;
+    case 'detour':announce('別の中継路を選択',`第2段の列 ${x.preferred} は使えません。空いている列 ${x.stages[1].col} に迂回します。`);call.marker=`代替経路（第2段の列 ${x.stages[1].col}）が使用可能でした。番号は変えずに経路だけ切り替えます。`;action=`中継路を ${x.preferred} → ${x.stages[1].col} に変更`;break;
+    case 'select':{const s=x.stages[st.s];call.states[st.s].selectedRow=s.row;call.status='switching';announce(`第${st.s+1}段：横の選択磁石 ON`,`行 ${s.row} を選択します。まだ交点は閉じていません。`);action=`第${st.s+1}段：選択磁石ON（行 ${s.row}）`;break;}
+    case 'hold':{const s=x.stages[st.s];call.states[st.s].holdCol=s.col;call.states[st.s].closed=true;announce(`第${st.s+1}段：縦の保持磁石 ON`,`列 ${s.col} の保持磁石を動かし、行 ${s.row} × 列 ${s.col} の交点を閉じます。`);action=`第${st.s+1}段：保持磁石ON（列 ${s.col}）、交点閉`;break;}
+    case 'unselect':{const s=x.stages[st.s];call.states[st.s].selectedRow=null;announce(`第${st.s+1}段：横の選択磁石 OFF`,`横の選択機構は元に戻ります。縦の保持磁石は通話が終わるまでONのままです。`);action=`第${st.s+1}段：選択磁石OFF、保持継続`;break;}
+    case 'ring':call.status='ringing';announce('呼び出し中','3段の接続がそろいました。着信側を呼び出します（相手が応答する前）。');action='通話路が完成、呼び出し信号を送る';break;
+    case 'connect':call.status='connected';call.marker='接続できました。マーカはもう通話路を操作しません。通話路は保持磁石によって維持されています。';announce('通話中 — 接続を保持しています','交点がつながっています。「✕ 切断」を押すと保持磁石がOFFになり、回線が空きます。');action='相手が応答、通話成立';break;
+  }
+  log(action);renderCall();soundForStep(st);if(st.type==='connect')stopAuto();else if(st.type==='busy'){call.running=false;if(call.timer!==null){clearTimeout(call.timer);call.timer=null;}$('floatingPause').classList.remove('is-visible');}return true;
+}
+function autoTick(){
+  if(!call.running)return;
+  const ok=nextStep();
+  if(!ok){stopAuto();renderCall();return;}
+  const current=call.steps[call.position];
+  followStep(current); // DOM has already been updated by nextStep().
+  if(!call.running){if(current.type!=='busy')stopAuto();renderCall();return;}
+  call.timer=setTimeout(autoTick,durationAfter(current));
+}
+function playPause(){
+  // AudioContext must be created/resumed during a real user gesture (iOS/Android policy).
+  ensureAudio();
+  if(call.running){stopAuto();renderCall();return;}
+  if(call.status==='connected'||call.status==='failed'){announce(call.title,'接続をやり直すには「最初から」を押してください。');renderCall();return;}
+  if(call.steps.length===0 && !startCall())return;
+  call.running=true;$('floatingPause').classList.add('is-visible');autoTick();renderCall();
+}
+function resetCall(){const held=call.states.filter(s=>s.closed).length,selected=call.states.filter(s=>s.selectedRow!==null).length;stopAuto();followKey='';if(highlighted){highlighted.classList.remove('follow-focus');highlighted=null;}call.steps=[];call.position=-1;call.registered='';call.plan=null;call.states=[mkStage(),mkStage(),mkStage()];call.history=[];call.status='idle';call.padEditing=false;call.currentDigit=null;call.currentIndex=-1;call.pulseCount=0;call.dialContact='make';call.pulsePhase='idle';call.storedCodes=[];call.pathRevealed=false;call.pulseNarration='受話器を上げると、回線は通常のメーク状態から始まります。';call.marker='レジスタが番号を受け取ると、マーカが使用可能な中継経路を探します。';announce('待機中','5桁の番号を設定して、発信を始めてください。');renderCall();releaseMechanisms(held,selected);}
+function hangCall(){const held=call.states.filter(s=>s.closed).length,selected=call.states.filter(s=>s.selectedRow!==null).length;stopAuto();followKey='';if(highlighted){highlighted.classList.remove('follow-focus');highlighted=null;}const hadConnection=call.states.some(s=>s.closed);call.steps=[];call.position=-1;call.states=[mkStage(),mkStage(),mkStage()];call.plan=null;call.status='ended';call.registered='';call.currentDigit=null;call.currentIndex=-1;call.pulseCount=0;call.dialContact='make';call.pulsePhase='idle';call.storedCodes=[];call.pathRevealed=false;call.pulseNarration='切断：受信・記憶リレーは初期状態に戻しました。';call.marker='切断後、保持磁石が解除され、通話路が空きました。';announce(hadConnection?'通話を切断しました':'発信を中止しました',hadConnection?'保持磁石をOFFにし、すべての交点を開放しました。':'交換機の接続処理を停止しました。');log('すべての保持磁石をOFF／通話路を解放');renderCall();releaseMechanisms(held,selected);}
+function handlePad(key){if(call.steps.length||call.running||call.status==='connected')return;let curr=$('phoneNumber').value;
+ if(key==='clear'){curr='';call.padEditing=true;}else if(key==='back'){curr=curr.slice(0,-1);call.padEditing=true;}else{if(!call.padEditing||curr.length>=5)curr='';curr+=key;call.padEditing=true;} $('phoneNumber').value=curr; if(call.status==='invalid')call.status='idle';renderCall();}
+function matrixSvg(stage,idx,interactive=false){
+ const X=c=>43+c*20.2,Y=r=>36+r*20.2;
+ let html='<svg class="matrix" viewBox="0 0 260 246" role="img" aria-label="10行10列の交点マトリックス">';
+ html+='<defs><filter id="glow'+idx+'" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3"/></filter></defs>';
+ html+='<rect x="30" y="24" width="211" height="203" rx="7" fill="#081725" stroke="#25445c"/>';
+ for(let r=0;r<10;r++){
+   const y=Y(r),selected=stage.selectedRow===r;
+   html+=`<line x1="36" y1="${y}" x2="234" y2="${y}" stroke="${selected?'#ffbf6f':'#365069'}" stroke-width="${selected?4:1.5}" stroke-linecap="round" opacity="${selected?1:.83}"/>`;
+   html+=`<text x="18" y="${y+4}" text-anchor="middle" font-size="10" font-family="monospace" fill="${selected?'#ffbf6f':'#8fabbe'}">${r}</text>`;
+ }
+ for(let c=0;c<10;c++){
+   const x=X(c),held=stage.holdCol===c,blocked=(stage.blockedCols||[]).includes(c);
+   html+=`<line x1="${x}" y1="27" x2="${x}" y2="224" stroke="${blocked?'#c65e73':held?'#68dafb':'#365069'}" stroke-width="${held?4:blocked?2:1.5}" stroke-dasharray="${blocked?'3 4':''}" stroke-linecap="round" opacity="${held?1:.84}"/>`;
+   html+=`<text x="${x}" y="17" text-anchor="middle" font-size="10" font-family="monospace" fill="${blocked?'#ff8996':held?'#68dafb':'#8fabbe'}">${c}</text>`;
+ }
+ for(let r=0;r<10;r++)for(let c=0;c<10;c++){
+   const x=X(c),y=Y(r),hit=stage.closed&&stage.holdCol===c&&stage.heldRow===r||(!interactive&&stage.closed&&stage.selectedPathRow===r&&stage.holdCol===c);
+   const isBlocked=(stage.blockedCols||[]).includes(c),isSelected=stage.selectedRow===r;
+   const target=interactive&&stage.targetRow===r&&stage.targetCol===c;
+   if(hit)html+=`<circle cx="${x}" cy="${y}" r="9" fill="#62e1c3" opacity=".32" filter="url(#glow${idx})"/>`;
+   html+=`<circle cx="${x}" cy="${y}" r="${hit?6.1:target?5.5:3.4}" fill="${hit?'#6bf7ce':isBlocked?'#aa6370':target?'#f1d7a1':isSelected?'#edaa69':'#718b9d'}" stroke="${hit?'#b4ffe7':target?'#ffbf6f':'#101e32'}" stroke-width="${hit?2:target?2.2:1}" opacity="${hit?1:isBlocked?.75:target?1:.84}"/>`;
+   if(interactive)html+=`<circle cx="${x}" cy="${y}" r="9" data-row="${r}" data-col="${c}" fill="transparent"><title>行${r}、列${c}を選択</title></circle>`;
+ }
+ if(!interactive&&stage.selectedPathRow!==null&&stage.routeVisible){
+   const x=X(stage.holdCol??stage.pathCol),y=Y(stage.selectedPathRow);
+   html+=`<path class="${stage.closed?'electrical-path':'cable-planned'}" d="M35 ${y} H${x} V235 H258"/><circle data-port="in" cx="35" cy="${y}" r="3.5" fill="${stage.incoming?'#7cf0ce':'#648398'}"/><circle data-port="out" cx="258" cy="235" r="3.5" fill="${stage.closed?'#7cf0ce':'#648398'}"/>`;
+ }
+ html+='</svg>';return html;
+}
+function renderSwitches(){let cards='';const labels=['第1段 / 発信側','第2段 / 中継側','第3段 / 着信側'];
+ for(let i=0;i<3;i++){
+   let s=call.states[i],p=call.plan?.stages[i],status=s.closed?(s.selectedRow!==null?'交点を保持':'接続を保持'):s.selectedRow!==null?'横を選択中':i===1&&s.blockedCols.length?'一部使用中':'待機';
+   let visual={...s,selectedPathRow:p?.row??null,pathCol:p?.col??null,routeVisible:!!(call.plan&&call.pathRevealed&&!call.plan.full),incoming:call.states.slice(0,i).every(v=>v.closed)};
+   const read=p&&call.pathRevealed?`行 ${p.row} <span class="muted">×</span> 列 ${p.col}`:'経路未決定';
+   cards+=`<div class="switch-card"><div class="s-top"><span class="s-name">${labels[i]}</span><span class="s-state ${s.closed?'held':s.selectedRow!==null?'active':''}">${status}</span></div>${matrixSvg(visual,i)}<div class="s-readout"><span>${read}</span><span class="${s.closed?'on':s.selectedRow!==null?'amber':''}">${s.closed?'● CLOSED':s.selectedRow!==null?'● SELECT':'○ OPEN'}</span></div></div>`;
+ }
+ $('switchGrid').innerHTML=cards;
+ let route='<span class="route-node">発信回線 '+(call.plan?.stages[0].row??num($('originLine').value))+'</span>';
+ for(let i=0;i<3;i++){route+='<span class="route-join">→</span><span class="route-node '+(call.states[i].closed?'done':'')+'">第'+(i+1)+'段 '+(call.plan&&call.pathRevealed?'['+call.plan.stages[i].row+','+call.plan.stages[i].col+']':'[—, —]')+'</span>';}
+ route+='<span class="route-join">→</span><span class="route-node '+(call.status==='connected'?'done':'')+'">着信 '+(call.status==='connected'?escapeHtml(call.number):'待機')+'</span>';
+ $('routeStrip').innerHTML=route;renderFabricOverview();scheduleStageLinks();
+}
+// Keep the overview visible on phones; the larger matrices use the same route.
+let fabricFrame=null;
+function renderFabricOverview(){
+ const ready=!!(call.plan&&call.pathRevealed&&!call.plan.full),full=!!(call.plan&&call.pathRevealed&&call.plan.full);
+ const starts=[12,176,340],w=128;
+ if(!$('fabricOverview').firstElementChild){
+  $('fabricOverview').innerHTML=`<svg viewBox="0 0 480 151" role="img" aria-label="3段の接続経路"><defs><marker id="overviewArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10" fill="#7cf0ce"/></marker></defs>${starts.map((x,i)=>`<g id="miniStage${i}"><rect x="${x}" y="9" width="${w}" height="134" rx="10" fill="#10283b" stroke="#3b6075"/><text x="${x+64}" y="31" text-anchor="middle" fill="#d3e9f3" font-size="16">第${i+1}段</text><path d="${Array.from({length:4},(_,n)=>`M${x+18} ${49+n*17}H${x+110} M${x+24+n*26} 44V108`).join(' ')}" stroke="#345569" stroke-width="1" fill="none"/><path id="miniPath${i}"/><circle id="miniCross${i}" r="5"/><text id="miniLabel${i}" x="${x+64}" y="134" text-anchor="middle" fill="#a9c8d5" font-size="13">経路未決定</text></g>`).join('')}<path id="miniLink0"/><path id="miniLink1"/></svg>`;
+ }
+ for(let i=0;i<3;i++){
+  const p=call.plan?.stages[i],s=call.states[i],x=starts[i],cx=x+22+(p?.col??0)*9,cy=46+(p?.row??0)*6;
+  const live=ready&&call.states.slice(0,i+1).every(v=>v.closed);
+  $('miniStage'+i).querySelector('rect').setAttribute('stroke',s.selectedRow!==null?'#ffbf6f':s.closed?'#7cf0ce':full?'#b46d7a':'#3b6075');
+  const line=$('miniPath'+i);line.setAttribute('d',ready?`M${x} ${cy}H${cx}V113H${x+w}`:'');line.setAttribute('class',live?'cable-live':'cable-planned');
+  const dot=$('miniCross'+i);dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);dot.setAttribute('fill',s.closed?'#7cf0ce':s.selectedRow!==null?'#ffbf6f':'#738b9c');dot.setAttribute('visibility',ready?'visible':'hidden');
+  $('miniLabel'+i).textContent=ready?`行${p.row} → 列${p.col}`:full?'経路なし':'経路未決定';
+  if(i<2){const nextRow=46+(call.plan?.stages[i+1].row??0)*6,link=$('miniLink'+i);link.setAttribute('d',ready?`M${x+w} 113C${x+w+18} 113 ${starts[i+1]-18} ${nextRow} ${starts[i+1]} ${nextRow}`:'');link.setAttribute('class',live?'cable-live':'cable-planned');link.setAttribute('marker-end',live?'url(#overviewArrow)':'');}
+ }
+ const closed=call.states.filter(s=>s.closed).length;
+ $('fabricStatus').textContent=full?'空き経路がなく、交点はつながりません。':!ready?'番号を受け取ると、つなぐ経路を探します。':closed===0?'点線の経路を、発信側から順に設定します。':closed===3?'3段を通る道がつながりました。':`第${closed}段の出口から、第${closed+1}段の入口まで届きました。`;
+ $('fabricOverview').firstElementChild.setAttribute('aria-label',full?'空き経路なし':`3段の接続経路：${closed}段まで接続中`);
+}
+function scheduleStageLinks(){
+ if(fabricFrame!==null)return;
+ fabricFrame=requestAnimationFrame(()=>{fabricFrame=null;renderStageLinks();});
+}
+function renderStageLinks(){
+ const wrap=$('fabricStageWrap'),svg=$('stageLinks'),rect=wrap.getBoundingClientRect();
+ if(!rect.width||!call.plan||!call.pathRevealed||call.plan.full){svg.innerHTML='';return;}
+ svg.setAttribute('viewBox',`0 0 ${rect.width} ${rect.height}`);
+ const cards=[...$('switchGrid').children],vertical=Math.abs(cards[0].getBoundingClientRect().top-cards[1].getBoundingClientRect().top)>20;
+ const point=(element)=>{const ctm=element.getScreenCTM();if(!ctm)return null;const p=new DOMPoint(element.cx.baseVal.value,element.cy.baseVal.value).matrixTransform(ctm);return{x:p.x-rect.left,y:p.y-rect.top};};
+ let paths='';
+ for(let i=0;i<2;i++){
+  const out=cards[i].querySelector('[data-port="out"]'),input=cards[i+1].querySelector('[data-port="in"]');if(!out||!input)continue;
+  const a=point(out),b=point(input);if(!a||!b)continue;
+  const previous=cards[i].getBoundingClientRect(),next=cards[i+1].getBoundingClientRect();
+  const midY=(previous.bottom+next.top)/2-rect.top,midX=(previous.right+next.left)/2-rect.left;
+  const d=vertical?`M${a.x} ${a.y}H${rect.width-3}V${midY}H3V${b.y}H${b.x}`:`M${a.x} ${a.y}H${midX}V${b.y}H${b.x}`;
+  const live=call.states.slice(0,i+1).every(s=>s.closed);
+  paths+=`<path data-link="${i}" data-live="${live}" d="${d}" class="${live?'cable-live':'cable-planned'}"/>${live?`<path d="${d}" class="cable-flow"/>`:''}`;
+ }
+ svg.innerHTML=paths;
+}
+window.addEventListener('resize',scheduleStageLinks);
+$('switchGrid').addEventListener('scroll',scheduleStageLinks,{passive:true});
+function renderPulse(){
+ const pps=call.steps.length?call.pulseRate:num($('pulseRate').value);
+ const period=pulseMs(pps),b=breakMs(pps),m=makeMs(pps);
+ $('pulseModeLabel').textContent=pps+' PPS';
+ $('pulseTimingLabel').textContent=`1周期 ${period.toFixed(0)}ms（断 ${Number(b.toFixed(1))}ms / 接 ${Number(m.toFixed(1))}ms）`;
+ const opened=call.dialContact==='break';
+ $('contactLabel').textContent=opened?'開放 / BREAK':'接続 / MAKE';
+ $('receiverRelayLabel').textContent=opened?'○ OFF（開放）':'● ON（吸引）';
+ for(const [id,isActive] of [['contactLabel',true],['receiverRelayLabel',true]]){
+   const card=$(id).parentElement;card.classList.toggle('signal-open',opened);card.classList.toggle('signal-on',!opened);
+ }
+ const total=call.currentDigit===null?0:pulsesFor(call.currentDigit);
+ $('counterLabel').textContent=`${call.pulseCount} / ${total}`;
+ $('counterDetail').textContent=call.currentDigit===null?'発信前':`現在 ${call.currentIndex+1}桁目（数字 ${call.currentDigit}）`;
+ $('counterHeading').textContent=total?`${call.currentIndex+1}桁目「${call.currentDigit}」：計数 ${call.pulseCount} / ${total}（計数リレー群の模式図）`:'計数中のパルス（計数リレー群の模式図）';
+ $('relayCounter').innerHTML=Array.from({length:10},(_,i)=>`<div class="counter-light ${i<call.pulseCount?'active':''} ${i===call.pulseCount-1?'last':''}">${i+1}</div>`).join('');
+ $('memoryRelays').innerHTML=Array.from({length:5},(_,i)=>{
+   const code=call.storedCodes[i]||[];
+   return `<div class="relay-bank ${code.length?'captured':'pending'}"><header>${i+1}桁目 <b>${call.registered[i]??'·'}</b></header><div class="relay-bulbs">${weights.map(w=>`<span class="relay-unit ${code.includes(w)?'on':''}" title="重み${w}の記憶リレー"><i></i>${w}</span>`).join('')}</div></div>`;
+ }).join('');
+ $('pulseNarration').textContent=call.pulseNarration;
+ const slots=total||5, slotW=64, width=Math.max(360,slots*slotW+28), x0=12;
+ let shape=`<svg role="img" aria-label="${escapeHtml(total?`${call.currentIndex+1}桁目・${total}パルス、現在${call.pulseCount}回目`:'パルス待機中')}" viewBox="0 0 ${width} 116" xmlns="http://www.w3.org/2000/svg">`;
+ shape+=`<line x1="12" y1="37" x2="${width-8}" y2="37" stroke="#2c5764" stroke-dasharray="3 5"/><line x1="12" y1="78" x2="${width-8}" y2="78" stroke="#513945" stroke-dasharray="3 5"/>`;
+ if(total){
+   for(let i=0;i<total;i++){
+     const left=x0+i*slotW,edge=left+slotW*.67,right=left+slotW;
+     const done=i<call.pulseCount, inBreak=done&&i===call.pulseCount-1&&call.pulsePhase==='break';
+     const op=done?1:.3;
+     shape+=`<path d="M${left} 37 V78 H${edge} V37 H${right}" fill="none" stroke="${done?'#7de6ce':'#7693aa'}" stroke-width="3.4" stroke-linejoin="round" opacity="${op}"/>`;
+     shape+=`<rect x="${left+1}" y="80" width="${slotW*.67-2}" height="6" rx="2" fill="#ff8693" opacity="${done?.94:.15}"/>`;
+     shape+=`<rect x="${edge+1}" y="32" width="${slotW*.33-2}" height="5" rx="2" fill="#62e1c3" opacity="${done&&!inBreak?.96:.15}"/>`;
+     if(i===call.pulseCount-1)shape+=`<rect x="${left}" y="20" width="${slotW}" height="72" rx="6" fill="none" stroke="#ffbf6f" stroke-width="2"/>`;
+     shape+=`<text x="${left+slotW/2}" y="108" font-family="monospace" font-size="11" text-anchor="middle" fill="${done?'#bff4e9':'#8096ac'}">${i+1}</text>`;
+   }
+ }else{
+   shape+=`<text x="${width/2}" y="59" font-size="14" fill="#9bb9d0" text-anchor="middle">数字の入力を開始するとパルスを表示します</text>`;
+ }
+ shape+='</svg>';
+ $('signalWave').innerHTML=shape;
+}
+function renderCall(){
+ const active=call.steps.length>0,settled=call.status==='connected'||call.status==='failed',shown=call.registered;
+ $('digitBoxes').innerHTML=Array.from({length:5},(_,i)=>`<div class="digit ${i<shown.length?'lit':''} ${i===shown.length-1&&active?'just':''}">${i<shown.length?shown[i]:'·'}</div>`).join('');
+ $('dialCount').textContent=shown.length+' / 5';
+ $('numberSplit').textContent=shown.length===5?`表示用区分： ${shown.slice(0,2)} / ${shown.slice(2)} （実機の番号構成とは限りません）`:'番号を順番に記録';
+ $('originShown').textContent='LINE '+(active?call.origin:$('originLine').value);
+ $('calledShown').textContent=['ringing','connected'].includes(call.status)?call.number:'-----';
+ $('markerText').textContent=call.marker;$('statusTitle').textContent=call.title;$('statusMessage').textContent=call.description;
+ $('progressBar').style.width=active?`${Math.round((call.position+1)/call.steps.length*100)}%`:'0%';
+ $('playCall').textContent=call.running?'Ⅱ 一時停止':'▶ 自動再生';
+ $('nextCall').disabled=call.running||settled;
+ $('playCall').disabled=settled;
+ $('hangCall').disabled=$('hangCallLog').disabled=!active && call.status!=='connected';
+ $('phoneNumber').disabled=active;$('originLine').disabled=active;$('scenario').disabled=active;$('pulseRate').disabled=active;$('pulseSlow').disabled=active;
+ $('keypad').querySelectorAll('button').forEach(b=>b.disabled=active);
+ const recent=call.history.slice(-9);
+ $('callLog').innerHTML=recent.length?recent.map((v,i)=>`<li class="${i===recent.length-1?'current':''}"><time>${String(v.n).padStart(2,'0')}</time>${escapeHtml(v.text)}</li>`).reverse().join(''):'<li>自動再生か1ステップを押してください。</li>';
+ renderPulse();renderSwitches();
+}
+function chooseTab(name){const callView=name==='call';document.body.classList.toggle('mechanism-mode',!callView);$('viewCall').classList.toggle('hidden',!callView);$('viewMechanism').classList.toggle('hidden',callView);$('tabCall').setAttribute('aria-selected',String(callView));$('tabMechanism').setAttribute('aria-selected',String(!callView));if(callView)scheduleStageLinks();}
+function setMechMessage(title,message){mech.statusTitle=title;mech.statusDetail=message;}
+function cancelMechDemo(){for(const id of mech.demoTimers)clearTimeout(id);mech.demoTimers=[];$('mechDemo').disabled=false;}
+function mechSelect(silent=false){if(mech.selectedRow!==null){setMechMessage('横の選択磁石はすでにON','先に③で横の選択を解除してください。');if(!silent)renderMech();return false;}
+ mech.selectedRow=mech.row;const heldRow=mech.holds[mech.col];setMechMessage(`① 行${mech.row}を選びました`,heldRow===mech.row?'この接点は、すでに接続中です。③を押しても接続は続きます。':heldRow!==null?`列${mech.col}は行${heldRow}と接続中です。別の列を選ぶか「この列を切る」を押してください。`:'接続の準備ができました。②で接点を閉じます。');if(!silent)renderMech();mechanicalCue('select');return true;}
+function mechHold(silent=false){if(mech.selectedRow===null){setMechMessage('先に横を選択してください','①の選択磁石をONにしてから、②で保持磁石を動かします。');if(!silent)renderMech();return false;}
+ const current=mech.holds[mech.col];if(current!==null&&current!==mech.selectedRow){setMechMessage('列が使用中です',`列 ${mech.col} はすでに行 ${current} と接続されています。違う列を選ぶか、保持を解除してください。`);if(!silent)renderMech();return false;}
+ mech.holds[mech.col]=mech.selectedRow;setMechMessage(current===null?`② 行${mech.selectedRow}と列${mech.col}がつながりました`:'この接点は、すでにつながっています','つなぎ続ける役が支えています。③で選ぶ役だけ戻してみてください。');if(!silent)renderMech();if(current===null)mechanicalCue('hold');return true;}
+function mechUnselect(silent=false){if(mech.selectedRow===null){setMechMessage('横はすでにOFFです','保持中の列はそのままなので、別の行・列で新しい接続を作れます。');if(!silent)renderMech();return false;}
+ mech.selectedRow=null;const held=mech.holds.filter(r=>r!==null).length;setMechMessage('③ 選ぶ役だけ戻しました',held?`接続中の${held}か所は、そのままです。つなぎ続ける役が支えています。`:'まだ②で接点をつないでいないので、接続はありません。');if(!silent)renderMech();mechanicalCue('unselect');return true;}
+function mechRelease(){cancelMechDemo();const released=mech.holds[mech.col]!==null;if(mech.holds[mech.col]===null){setMechMessage('この列は未接続です',`列 ${mech.col} には保持中の接続がありません。`);}else{const row=mech.holds[mech.col];mech.holds[mech.col]=null;setMechMessage(`列 ${mech.col} の保持を解除`,`行 ${row} × 列 ${mech.col} の接点が開きました。`);}renderMech();if(released)mechanicalCue('release');}
+function mechReset(){cancelMechDemo();const held=mech.holds.filter(r=>r!==null).length,selected=mech.selectedRow===null?0:1;mech.holds.fill(null);mech.selectedRow=null;setMechMessage('全交点を解放しました','すべての保持磁石がOFFとなり、全回線が空きました。');renderMech();releaseMechanisms(held,selected);}
+function demoMech(){cancelMechDemo();if(mech.selectedRow!==null){setMechMessage('実演前に横を戻してください','③「横を戻す」を押してから実演してください。');renderMech();return;}
+ if(mech.holds[mech.col]!==null && mech.holds[mech.col]!==mech.row){setMechMessage('対象の列は使用中','別の列を選ぶか、列の保持を解除してから実演してください。');renderMech();return;}
+ $('mechDemo').disabled=true;mechSelect(true);renderMech();mech.demoTimers.push(setTimeout(()=>{if(!mechHold(true)){cancelMechDemo();renderMech();return;}renderMech();mech.demoTimers.push(setTimeout(()=>{mechUnselect(true);cancelMechDemo();renderMech();},Math.max(720,observationMs())));},Math.max(720,observationMs())));
+}
+function updateFlexibleFinger(path,d){
+ const previous=path.getAttribute('d');path.querySelectorAll('animate').forEach(e=>e.remove());path.setAttribute('d',d);
+ if(!previous||previous===d||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const animation=document.createElementNS('http://www.w3.org/2000/svg','animate');
+ animation.setAttribute('attributeName','d');animation.setAttribute('from',previous);animation.setAttribute('to',d);animation.setAttribute('dur','.42s');
+ path.appendChild(animation);if(typeof animation.beginElement==='function')animation.beginElement();
+ animation.addEventListener('endEvent',()=>animation.remove(),{once:true});
+}
+function renderMechanicalDiagram(row,col,selected,held,closed,heldRow){
+ if(!$('contactDiagram').firstElementChild){
+  $('contactDiagram').innerHTML=`<svg class="contact-svg mechanical-svg" viewBox="0 0 360 235" role="img"><defs><marker id="forceArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10" fill="#9cb3c4"/></marker></defs>
+   <text x="47" y="19" text-anchor="middle" font-size="13" fill="#ffbf6f">選択磁石</text><rect id="selectCoil" class="coil" x="12" y="29" width="70" height="34" rx="7"/><path d="M26 34V58M34 34V58M42 34V58M50 34V58M58 34V58" stroke="#af8d60" stroke-width="2"/>
+   <g id="selectArmature" class="motion-part"><path d="M91 34V60L110 86" stroke="#b7c5cf" stroke-width="5" fill="none"/></g><text x="47" y="54" text-anchor="middle" font-size="11" fill="#fff0d3" id="selectCoilLabel">OFF</text>
+   <g id="selectBar" class="motion-part"><path d="M101 86H224" stroke="#ffbf6f" stroke-width="8" stroke-linecap="round"/><circle cx="110" cy="86" r="5" fill="#10283b" stroke="#ffbf6f" stroke-width="2"/></g><text x="160" y="74" text-anchor="middle" font-size="12" fill="#ffcf92">横の選択バー</text>
+   <text x="308" y="19" text-anchor="middle" font-size="13" fill="#68dafb">保持磁石</text><rect id="holdCoil" class="coil" x="274" y="29" width="70" height="34" rx="7"/><path d="M285 34V58M293 34V58M301 34V58M309 34V58M317 34V58" stroke="#629eb8" stroke-width="2"/><text x="309" y="54" text-anchor="middle" font-size="11" fill="#dcf7ff" id="holdCoilLabel">OFF</text>
+   <g id="holdArmature" class="motion-part"><path d="M282 70H323M295 70V90" stroke="#b7c5cf" stroke-width="5" fill="none"/></g>
+   <g id="holdBar" class="motion-part"><path d="M295 83V183M295 122H251" stroke="#68dafb" stroke-width="8" stroke-linecap="round" fill="none"/><circle cx="295" cy="183" r="5" fill="#10283b" stroke="#68dafb" stroke-width="2"/></g>
+   <text x="329" y="100" text-anchor="middle" font-size="11" fill="#91def3">縦の</text><text x="329" y="114" text-anchor="middle" font-size="11" fill="#91def3">保持バー</text>
+   <path id="flexibleFinger" fill="none" stroke="#ffcf92" stroke-width="5" stroke-linecap="round"/><text x="188" y="119" text-anchor="middle" font-size="12" fill="#ffcf92">柔らかいつめ</text>
+   <g id="operatingCard" class="motion-part"><path d="M240 122V179" stroke="#e0d3b8" stroke-width="9" stroke-linecap="round"/></g><text x="271" y="157" text-anchor="middle" font-size="11" fill="#e7d8b6">押し具</text>
+   <path id="leftWire" d="M18 195H137" fill="none" stroke="#8daaba" stroke-width="5"/><path id="rightWire" d="M238 195H342" fill="none" stroke="#8daaba" stroke-width="5"/>
+   <g id="contactLeaf" class="motion-part" style="transform:rotate(-7deg)"><path d="M137 195H238" stroke="#b7cbd7" stroke-width="5" stroke-linecap="round"/><circle cx="238" cy="195" r="4" fill="#d4e1e9"/></g><circle cx="137" cy="195" r="4" fill="#112c3c" stroke="#b7cbd7" stroke-width="2"/><circle id="fixedContact" cx="238" cy="195" r="5" fill="#b7cbd7"/>
+   <text x="158" y="151" text-anchor="middle" font-size="11" fill="#b7cbd7">接点ばね</text><text x="40" y="217" text-anchor="middle" font-size="11" fill="#b7cbd7" id="rowWireLabel"></text><text x="318" y="217" text-anchor="middle" font-size="11" fill="#b7cbd7" id="colWireLabel"></text><text x="179" y="231" text-anchor="middle" font-size="12" id="contactOpenLabel"></text>
+  </svg>`;
+ }
+ const svg=$('contactDiagram').firstElementChild;
+ svg.setAttribute('aria-label',`選択磁石→横バー→つめ、保持磁石→縦バー→押し具→接点ばね。行${row}と列${col}：${closed?'閉じて接続中':'開いて未接続'}`);
+ svg.dataset.selected=String(selected);svg.dataset.held=String(held);svg.dataset.closed=String(closed);
+ $('selectCoil').classList.toggle('select-on',selected);$('holdCoil').classList.toggle('hold-on',held);
+ $('selectCoilLabel').textContent=selected?'ON':'OFF';$('holdCoilLabel').textContent=held?'ON':'OFF';
+ $('selectArmature').style.transform=selected?'translate(-6px,0)':'translate(0,0)';$('selectBar').style.transform=selected?'rotate(9deg)':'rotate(0deg)';
+ $('holdArmature').style.transform=held?'translate(0,-6px)':'translate(0,0)';$('holdBar').style.transform=held?'rotate(-8deg)':'rotate(0deg)';
+ $('operatingCard').style.transform=closed?'translate(0,12px)':'translate(0,0)';$('contactLeaf').style.transform=closed?'rotate(0deg)':'rotate(-7deg)';
+ const tipX=selected?222.6:224,tipY=selected?103.8:86,fingerY=closed?134:selected?124:111;
+ updateFlexibleFinger($('flexibleFinger'),`M${tipX} ${tipY} C235 ${tipY} 226 ${fingerY} ${held&&!closed?224:251} ${fingerY}`);
+ const color=closed?'#7cf0ce':'#8daaba';for(const id of ['leftWire','rightWire'])$(id).setAttribute('stroke',color);
+ $('contactLeaf').querySelector('path').setAttribute('stroke',closed?'#7cf0ce':'#b7cbd7');$('fixedContact').setAttribute('fill',closed?'#7cf0ce':'#b7cbd7');
+ $('rowWireLabel').textContent=`行${row}の線`;$('colWireLabel').textContent=`列${col}の線`;
+ $('contactOpenLabel').textContent=closed?'接点が触れて、通話の線がつながる':'接点は離れている';$('contactOpenLabel').setAttribute('fill',color);
+ $('mechanismNarration').textContent=held&&!closed?`列${col}は行${heldRow}を保持中。この行の接点は開いたまま。`:closed?(selected?'② 縦バーがつめを押し、接点ばねを閉じる。':'③ 横バーは戻り、つめだけ押さえられて残る。'):selected?'① 横バーが回り、つめが押せる位置へ移動。':'磁石→バー→つめ→接点の順に動きます。';
+}
+function renderContact(){
+ const row=mech.selectedRow??mech.row,col=mech.col,heldRow=mech.holds[col];
+ const selected=mech.selectedRow!==null,held=heldRow!==null,closed=heldRow===row;
+ const count=mech.holds.filter(r=>r!==null).length,color=closed?'#7cf0ce':'#89a9be';
+ const other=held&&!closed;
+ $('contactTarget').textContent=`いま見る交点：行${row} × 列${col}`;
+ $('connectionCount').textContent=`接続中 ${count}か所`;
+ renderMechanicalDiagram(row,col,selected,held,closed,heldRow);
+ $('selectRole').classList.toggle('is-on',selected);$('selectRole').querySelector('b').textContent=selected?`ON · 行${row}を選択中`:'OFF · 次の接続に使える';
+ $('holdRole').classList.toggle('is-on',held);$('holdRole').querySelector('b').textContent=held?`ON · 行${heldRow}との接続を維持`:'OFF · まだ支えていない';
+ const mismatch=selected&&mech.row!==row;
+ $('mechTargetHint').classList.toggle('hidden',!mismatch);
+ $('mechTargetHint').textContent=mismatch?`指定は行${mech.row}ですが、いま選択中なのは行${row}です。③で戻してから①を押すと切り替わります。`:'';
+ const next=selected?(closed?'mechUnselect':other?'mechUnselect':'mechHold'):closed?null:'mechSelect';
+ for(const id of ['mechSelect','mechHold','mechUnselect'])$(id).classList.toggle('is-next',id===next);
+ $('mechSelect').setAttribute('aria-pressed',String(selected));$('mechHold').setAttribute('aria-pressed',String(closed));
+}
+function renderMech(){
+ renderContact();
+ const stage={selectedRow:mech.selectedRow,holdCol:null,closed:false,heldRow:null,blockedCols:[],targetRow:mech.row,targetCol:mech.col};
+ let svg=matrixSvg(stage,'mech',true);
+ // Draw the individually held crosspoints as overlays (multiple columns can stay energized).
+ svg=svg.replace('</svg>',mech.holds.map((r,c)=>r===null?'':`<line x1="${43+c*20.2}" y1="27" x2="${43+c*20.2}" y2="224" stroke="#68dafb" stroke-width="3" opacity=".8" pointer-events="none"/><circle cx="${43+c*20.2}" cy="${36+r*20.2}" r="8" fill="#60eac8" stroke="#d2ffef" stroke-width="2" pointer-events="none"/>`).join('')+'</svg>');
+ $('mechSvgWrap').innerHTML=svg;
+ $('barsVisualization').innerHTML=Array.from({length:5},(_,i)=>{let active=mech.selectedRow!==null&&Math.floor(mech.selectedRow/2)===i;return `<div class="bar-line"><span>BAR ${i+1}</span><i class="slat ${active?'power':''}"></i></div>`;}).join('');
+ $('holdsVisualization').innerHTML=mech.holds.map((r,c)=>`<i class="${r!==null?'live':''}" title="列 ${c}${r!==null?'：行 '+r+' に接続中':''}">${c}</i>`).join('');
+ $('selectedBarDesc').textContent=mech.selectedRow!==null?`バー${Math.floor(mech.selectedRow/2)+1}で行${mech.selectedRow}を選択中（${mech.selectedRow%2===0?'上':'下'}側）。`:`各バーで2行を選択できます。保持中の列：${mech.holds.filter(r=>r!==null).length}本。`;
+ $('mechStatus').innerHTML=`<strong>${escapeHtml(mech.statusTitle)}</strong>${escapeHtml(mech.statusDetail)}`;
+ $('mechRow').value=mech.row;$('mechCol').value=mech.col;
+}
+// Wiring
+$('tabCall').addEventListener('click',()=>chooseTab('call'));$('tabMechanism').addEventListener('click',()=>chooseTab('mechanism'));
+$('playCall').addEventListener('click',playPause);$('floatingPause').addEventListener('click',playPause);$('autoFollow').addEventListener('change',()=>{followKey='';if(highlighted){highlighted.classList.remove('follow-focus');highlighted=null;}});$('nextCall').addEventListener('click',()=>{ensureAudio();if(call.running)stopAuto();nextStep();});$('resetCall').addEventListener('click',resetCall);$('hangCall').addEventListener('click',hangCall);$('hangCallLog').addEventListener('click',hangCall);
+$('observePause').addEventListener('input',()=>{$('observePauseValue').textContent=(num($('observePause').value)/1000).toFixed(1)+'秒';});
+$('soundVolume').addEventListener('input',()=>{updateVolumeLabel();if(!soundEnabled())clearSound();});
+$('soundEnabled').addEventListener('change',()=>{if(!soundEnabled())clearSound();else ensureAudio();});
+$('soundTest').addEventListener('click',()=>{audioCue($('soundPreview').value,true);});
+$('speed').addEventListener('input',()=>{$('speedValue').textContent=(num($('speed').value)/1000).toFixed(1)+'秒（観察待機を優先）';});
+$('pulseRate').addEventListener('change',renderCall);$('pulseSlow').addEventListener('change',renderCall);
+$('keypad').addEventListener('click',event=>{const button=event.target.closest('button[data-key]');if(button)handlePad(button.dataset.key);});
+$('phoneNumber').addEventListener('input',()=>{$('phoneNumber').value=safeDigits($('phoneNumber').value);call.padEditing=true;if(call.status==='invalid'){call.status='idle';renderCall();}});
+$('originLine').addEventListener('change',renderCall);
+for(let i=0;i<10;i++){const a=new Option('行 '+i,String(i)),b=new Option('列 '+i,String(i));$('mechRow').add(a);$('mechCol').add(b);}
+$('mechRow').addEventListener('change',()=>{cancelMechDemo();mech.row=num($('mechRow').value);renderMech();});
+$('mechCol').addEventListener('change',()=>{cancelMechDemo();mech.col=num($('mechCol').value);renderMech();});
+$('mechSvgWrap').addEventListener('click',event=>{const e=event.target.closest('[data-row]');if(!e)return;cancelMechDemo();mech.row=num(e.dataset.row);mech.col=num(e.dataset.col);renderMech();});
+$('mechSelect').addEventListener('click',()=>{cancelMechDemo();mechSelect();});$('mechHold').addEventListener('click',()=>{cancelMechDemo();mechHold();});$('mechUnselect').addEventListener('click',()=>{cancelMechDemo();mechUnselect();});$('mechRelease').addEventListener('click',mechRelease);$('mechReset').addEventListener('click',mechReset);$('mechDemo').addEventListener('click',demoMech);
+// Expose only a small read-only debug view for smoke tests; not needed for the app to function.
+Object.defineProperty(window,'CROSSBAR_LAB_INFO',{value:Object.freeze({version:'1.6.0',build:BUILD,cacheBuster:CACHE_BUSTER}),writable:false});
+updateVolumeLabel();renderCall();renderMech();
+})();
+</script>
+</body>
+</html>
